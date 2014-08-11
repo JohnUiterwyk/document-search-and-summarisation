@@ -14,6 +14,7 @@ public class IndexAppController {
     {
         this.indexArgs.parseArgs(args);
         parser.loadFile(indexArgs.pathToDocsFile);
+        parser.parse();
 
     }
 }
