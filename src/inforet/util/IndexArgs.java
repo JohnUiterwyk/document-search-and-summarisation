@@ -25,10 +25,10 @@ public class IndexArgs {
             if(i == args.length -1)
             {
                 this.pathToDocsFile = arg;
-            }else if(arg == "-p")
+            }else if(arg.equals("-p"))
             {
                 this.printIndexTerms = true;
-            }else if(arg == "-s")
+            }else if(arg.equals("-s"))
             {
                 this.useStopWords = true;
                 i++;

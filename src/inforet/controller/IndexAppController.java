@@ -5,6 +5,9 @@ import inforet.module.ParsingModule;
 
 /**
  * Created by johnuiterwyk on 11/08/2014.
+ *
+ * References:
+ * http://stackoverflow.com/questions/180158/how-do-i-time-a-methods-execution-in-java
  */
 public class IndexAppController {
 
@@ -12,9 +15,21 @@ public class IndexAppController {
     private IndexArgs indexArgs = new IndexArgs();
     public IndexAppController(String[] args)
     {
+
+        long startTime = System.currentTimeMillis();
+
+
         this.indexArgs.parseArgs(args);
         parser.loadFile(indexArgs.pathToDocsFile);
         parser.parse();
+
+        if(this.indexArgs.printIndexTerms)
+        {
+            this.parser.printTerms();
+        }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Running time:" + (endTime - startTime) + " milliseconds");
 
     }
 }
