@@ -1,5 +1,7 @@
 package inforet;
 
+import inforet.controller.IndexAppController;
+
 /**
  * Created by johnuiterwyk on 6/08/2014.
  *
@@ -9,8 +11,8 @@ package inforet;
 
 public class index {
 
-    public static void main(String[] args) {
-	// write your code here
-        System.out.println("index app");
+    public static void main(String[] args)
+    {
+        new IndexAppController(args);
     }
 }
