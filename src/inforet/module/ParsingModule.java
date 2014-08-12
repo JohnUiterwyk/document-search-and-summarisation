@@ -73,7 +73,7 @@ public class ParsingModule
         }
     }
 
-    public void parseLine()
+    private void parseLine()
     {
         lineWords.clear();
         lineWords.addAll(Arrays.asList(line.split(" ")));
@@ -85,7 +85,7 @@ public class ParsingModule
 
     }
 
-    public void indexTerm(String word)
+    private void indexTerm(String word)
     {
         //use precompiled notNumAndLetters for performance
         word = notNumAndLetters.matcher(word.toLowerCase()).replaceAll("");
@@ -100,7 +100,7 @@ public class ParsingModule
         }
     }
 
-    public Boolean readNextLine()
+    private Boolean readNextLine()
     {
         try
         {
