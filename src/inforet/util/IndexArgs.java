@@ -1,5 +1,7 @@
 package inforet.util;
 
+import inforet.controller.StopListController;
+
 /**
  * Created by johnuiterwyk on 11/08/2014.
  * AppConfig parses the command line arguments into an easy to use object
@@ -35,6 +37,9 @@ public class IndexArgs {
                 if(i < args.length - 1 )
                 {
                     this.pathToStopWordsFile = args[i+1];
+
+                    //Set the Path to the StopList for the StopListController
+                    StopListController.setStopListPath(pathToStopWordsFile);
                 }else
                 {
                     //TODO:throw invalid arguments error
