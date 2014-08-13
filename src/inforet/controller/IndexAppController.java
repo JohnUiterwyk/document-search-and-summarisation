@@ -19,14 +19,12 @@ public class IndexAppController {
         long startTime = System.currentTimeMillis();
 
 
-        this.indexArgs.parseArgs(args);
-        parser.loadFile(indexArgs.pathToDocsFile);
-        parser.parse();
+        indexArgs.parseArgs(args);
 
-        if(this.indexArgs.printIndexTerms)
-        {
-            this.parser.printTerms();
-        }
+        parser.loadFile(indexArgs.pathToDocsFile);
+
+        parser.parse(indexArgs.printIndexTerms);
+
 
         long endTime = System.currentTimeMillis();
         System.out.println("Running time:" + (endTime - startTime) + " milliseconds");
