@@ -8,12 +8,12 @@ import java.util.List;
  */
 public class TermInfo {
     private int invlistLineNum = -1;
-    public int docFrequency = 0;
     private List<Posting> postings = new ArrayList<Posting>();
     public TermInfo(int docId)
     {
         this.addOccurance(docId);
     }
+
     public void addOccurance(int docId)
     {
         Boolean found = false;
@@ -29,8 +29,11 @@ public class TermInfo {
         if(!found)
         {
             postings.add(new Posting(docId));
-            docFrequency++;
         }
+    }
 
+    public int getDocumentFrequency()
+    {
+        return postings.size();
     }
 }

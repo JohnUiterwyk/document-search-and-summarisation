@@ -8,6 +8,8 @@ public class Posting {
     public int withinDocFrequency = 0;
     public Posting(int docId)
     {
+
         this.docId = docId;
+        this.withinDocFrequency++;
     }
 }

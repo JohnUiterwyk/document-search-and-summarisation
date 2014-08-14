@@ -23,20 +23,21 @@ import java.util.regex.Pattern;
  */
 public class ParsingModule
 {
-    private List<String> docIds = new ArrayList<String>();
+    private List<String> docIdMap = new ArrayList<String>();
     private FileReader fileReader = null;
     private BufferedReader reader = null;
-    private String line = null;
     private List<String> lineWords = new ArrayList<String>();
-    private Map<String, TermInfo> terms = new HashMap<String, TermInfo>();
+    private int wordIndex = 0;
+    private String line = null;
 
     private Pattern notNumAndLetters = Pattern.compile("[^a-z0-9]+");
+
 
     private Boolean inDoc = false;
     private Boolean inHeadline = false;
     private Boolean inText = false;
 
-    private Boolean printTermsEnabled = false;
+
     private int currentDocId = -1;
 
     public ParsingModule()
@@ -58,45 +59,80 @@ public class ParsingModule
 
 
     }
-    public void parse(Boolean printTermsEnabled) {
-        this.printTermsEnabled = printTermsEnabled;
-        while (this.readNextLine() == true) {
-            parseLine();
-        }
 
-        System.out.println("Term count: " + terms.size());
-
+    public int getCurrentDocId() {
+        return currentDocId;
+    }
+    public List<String> getDocIdMap() {
+        return docIdMap;
     }
 
-
-    private Boolean readNextLine()
+    public String getNextWord()
     {
-        try
-        {
-            line = reader.readLine();
-        }catch (IOException ex)
-        {
-            System.err.print(ex.getMessage());
-            line = null;
-        }
-        return (line != null);
+        String result = null;
+        do{
+            //check if we have a line to work with
+            if(line==null)
+            {
+                //try to get the next line
+                try
+                {
+                    line = reader.readLine();
+                }catch (IOException ex)
+                {
+                    System.err.print(ex.getMessage());
+                }
+                //if the line is null, we are done with the file
+                if(line == null)
+                {
+                    return null;
+                }
 
+                //if parsing produces no words, skip to the next line
+                if(parseLine(line) == false)
+                {
+                    line = null;
+                    continue;
+                }
+            }
+
+            //if we make it here, we have a parsed line
+            //if the current word index < the size of the line words
+            //return the current word
+            if(wordIndex < lineWords.size())
+            {
+                //fetch the next word  in the line and then normalize the word.
+                result = lineWords.get(wordIndex);
+                result = notNumAndLetters.matcher(result.toLowerCase()).replaceAll("");
+                wordIndex++;
+            }else
+            {
+                wordIndex = 0;
+                lineWords.clear();
+                line = null;
+            }
+        }while(result == null || result.length() == 0);
+        return result;
     }
-    private void parseLine()
+
+    private Boolean parseLine(String line)
     {
-        lineWords.clear();
-        lineWords.addAll(Arrays.asList(line.split(" ")));
+        //fist split the line on spaces and dashes
+        lineWords.addAll(Arrays.asList(line.split("[\\s\\-]")));
+
         if(lineWords.size() > 0) {
+            //if any words resulted, get the first word
             String firstWord = lineWords.get(0);
 
-            if (firstWord.length() > 0 && firstWord.charAt(0) == '<') {
+            //and check if the word is tag
+            if (line.length() > 0 && line.charAt(0) == '<') {
                 if (firstWord.equals("<DOC>")) {
                     this.inDoc = true;
                 } else if (firstWord.equals("</DOC>")) {
                     this.inDoc = false;
                 } else if (firstWord.equals("<DOCNO>")) {
-                    this.currentDocId = docIds.size();
-                    docIds.add(lineWords.get(1));
+                    this.currentDocId = docIdMap.size();
+                    docIdMap.add(lineWords.get(1));
                 } else if (firstWord.equals("<HEADLINE>")) {
                     this.inHeadline = true;
                 } else if (firstWord.equals("</HEADLINE>")) {
@@ -106,56 +142,16 @@ public class ParsingModule
                 } else if (firstWord.equals("</TEXT>")) {
                     this.inText = false;
                 }
-            } else {
-                if (this.inDoc && (this.inHeadline || this.inText)) {
-                    for (String word : lineWords) {
-                        indexTerm(word);
-                    }
-
-                }
+            } else if (this.inDoc && (this.inHeadline || this.inText)) {
+                return true;
             }
         }
 
-
+        lineWords.clear();
+        return false;
 
     }
 
-    private void indexTerm(String word)
-    {
-        //use precompiled notNumAndLetters for performance
-        word = notNumAndLetters.matcher(word.toLowerCase()).replaceAll("");
 
-
-        //check for word in map
-        if(word.length() > 1)
-        {
-            if(terms.containsKey(word) == false) {
-
-                terms.put(word, new TermInfo(this.currentDocId));
-            }else
-            {
-                TermInfo termInfo = terms.get(word);
-                termInfo.addOccurance(this.currentDocId);
-                terms.put(word, termInfo);
-            }
-            if(this.printTermsEnabled)
-            {
-                System.out.println(word+" : "+terms.get(word).docFrequency);
-            }
-        }
-    }
-
-//    public void printTerms()
-//    {
-//
-////        this was bad!!!!!!!!!
-////        iterating over a hashmap includes empty slots!!!
-////        oops!!
-//        Iterator<String> keySetIterator = terms.keySet().iterator();
-//        while(keySetIterator.hasNext()){
-//            String key = keySetIterator.next();
-//            System.out.println(key + " : " + terms.get(key));
-//        }
-//    }
 
 }
