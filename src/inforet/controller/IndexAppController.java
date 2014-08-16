@@ -3,6 +3,7 @@ package inforet.controller;
 import inforet.module.IndexingModule;
 import inforet.util.IndexArgs;
 import inforet.module.ParsingModule;
+import inforet.util.IndexFileManager;
 import inforet.util.MapFileManager;
 
 /**
@@ -22,9 +23,14 @@ public class IndexAppController {
 
         long startTime = System.currentTimeMillis();
 
+        //parse the args
         indexArgs.parseArgs(args);
+
+        //load the doc collection and get the first word
         parsingModule.loadFile(indexArgs.pathToDocsFile);
         String term = parsingModule.getNextWord();
+
+        //loop through the collection extract term/doc pairs
         while(term != null)
         {
             if(indexArgs.printIndexTerms)
@@ -35,8 +41,13 @@ public class IndexAppController {
             term = parsingModule.getNextWord();
         }
 
+        //save the map file
         MapFileManager mapFileManager = new MapFileManager();
         mapFileManager.saveDocIdMap(parsingModule.getDocIdMap());
+
+        //save the lexicon and inverted list
+        IndexFileManager indexFileManager = new IndexFileManager();
+        indexFileManager.saveToDisk(indexingModule.getTerms());
 
 
         long endTime = System.currentTimeMillis();

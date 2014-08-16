@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
  * http://stackoverflow.com/questions/180158/how-do-i-time-a-methods-execution-in-java
  * http://stackoverflow.com/questions/6239061/regular-expression-to-remove-everything-but-characters-and-numbers
  * http://stackoverflow.com/questions/1757363/java-hashmap-performance-optimization-alternative
+ * http://blog.manishchhabra.com/2012/08/the-5-main-differences-betwen-hashmap-and-hashtable/
  *
  *
  *

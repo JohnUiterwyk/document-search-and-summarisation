@@ -23,7 +23,9 @@ public class IndexingModule {
             if(terms.containsKey(term) == false) {
 
                 termCount++;
-                terms.put(term, new TermInfo(docId));
+                TermInfo termInfo = new TermInfo();
+                termInfo.addOccurance(docId);
+                terms.put(term, termInfo);
             }else
             {
                 TermInfo termInfo = terms.get(term);
@@ -34,6 +36,10 @@ public class IndexingModule {
     }
 
 
+    public  Map<String, TermInfo> getTerms()
+    {
+        return terms;
+    }
     public int getTermCount()
     {
         return termCount;
