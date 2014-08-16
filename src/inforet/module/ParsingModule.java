@@ -111,7 +111,7 @@ public class ParsingModule
             {
                 //fetch the next word  in the line and then normalize the word.
                 result = lineWords.get(wordIndex);
-                result = notNumAndLetters.matcher(result.toLowerCase()).replaceAll("");
+                result = TermNormalizer.transform(result);
                 wordIndex++;
             }else
             {
