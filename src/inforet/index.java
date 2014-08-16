@@ -2,6 +2,8 @@ package inforet;
 
 import inforet.controller.IndexAppController;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by johnuiterwyk on 6/08/2014.
  *
@@ -15,10 +17,17 @@ public class index {
     {
         long startTime = System.currentTimeMillis();
 
-        new IndexAppController(args);
+        new IndexAppController(args); //Let it begin
 
+        //Print out some timing information
         long endTime = System.currentTimeMillis();
         System.out.println("Running time:" + (endTime - startTime) + " milliseconds");
-
+        long millis = (endTime - startTime);
+        System.out.printf("\n\n" + String.format("%d min, %d sec \n",
+                                                  TimeUnit.MILLISECONDS.toMinutes(millis),
+                                                  TimeUnit.MILLISECONDS.toSeconds(millis) -
+                                                  TimeUnit.MINUTES.toSeconds
+                                                  (TimeUnit.MILLISECONDS.toMinutes(millis))
+        ));
     }
 }

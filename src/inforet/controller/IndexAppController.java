@@ -14,20 +14,20 @@ import inforet.util.MapFileManager;
  */
 public class IndexAppController {
 
-    private ParsingModule parsingModule = new ParsingModule();
-    private IndexingModule indexingModule = new IndexingModule();
-    private IndexArgs indexArgs = new IndexArgs();
+    private ParsingModule parsingModule     = new ParsingModule();
+    private IndexingModule indexingModule   = new IndexingModule();
+    private IndexArgs indexArgs             = new IndexArgs();
 
     public IndexAppController(String[] args)
     {
-
-
 
         //parse the args
         indexArgs.parseArgs(args);
 
         //load the doc collection and get the first word
         parsingModule.loadFile(indexArgs.pathToDocsFile);
+        //Get the next word from the document collection
+        //The first word in this case.
         String term = parsingModule.getNextWord();
 
         //loop through the collection extract term/doc pairs
