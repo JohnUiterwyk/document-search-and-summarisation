@@ -68,12 +68,19 @@ public class ParsingModule
         return docIdMap;
     }
 
+    /***
+     * getNextWord from the Document Collection.
+     * This method reads the predefined Document Library, reading the Document Contents
+     * line by line, ignorning numbers, whitespace & individual characters and adding it to the
+     * word index. TODO (Whats a word Index ? Number of unique words in the lexicon?)
+     * @return nextWord
+     */
     public String getNextWord()
     {
         String result = null;
         do{
             //check if we have a line to work with
-            if(line==null)
+            if(line == null)
             {
                 //try to get the next line
                 try
