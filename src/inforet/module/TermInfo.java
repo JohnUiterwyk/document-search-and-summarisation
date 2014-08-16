@@ -9,7 +9,7 @@ import java.util.List;
 public class TermInfo {
 
 
-    private int invListLineNum = -1;
+    private long invListFilePosition = -1;
 
 
     private int documentFrequency = 0;
@@ -75,11 +75,11 @@ public class TermInfo {
     }
 
 
-    public int getInvListLineNum() {
-        return invListLineNum;
+    public long getInvListFilePosition() {
+        return invListFilePosition;
     }
 
-    public void setInvListLineNum(int invListLineNum) {
-        this.invListLineNum = invListLineNum;
+    public void setInvListFilePosition(long invListFilePosition) {
+        this.invListFilePosition = invListFilePosition;
     }
 }

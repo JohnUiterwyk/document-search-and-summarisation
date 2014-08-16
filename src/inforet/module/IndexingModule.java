@@ -19,20 +19,17 @@ public class IndexingModule {
     {
         //check for word in map
         if(term.length() > 1)
-        {
-            if(terms.containsKey(term) == false) {
+            if (terms.containsKey(term) == false) {
 
                 termCount++;
                 TermInfo termInfo = new TermInfo();
                 termInfo.addOccurance(docId);
                 terms.put(term, termInfo);
-            }else
-            {
+            } else {
                 TermInfo termInfo = terms.get(term);
                 termInfo.addOccurance(docId);
                 terms.put(term, termInfo);
             }
-        }
     }
 
 

@@ -3,10 +3,9 @@ package inforet.util;
 import inforet.module.Posting;
 import inforet.module.TermInfo;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,47 +33,42 @@ public class IndexFileManager {
     }
 
     /**
-     * write the postings to a file, saving the line number to the term info
+     * write the postings to a file, saving the position of each postings list
+     * this now writes just integers for space saving
+     * also makes it possible to jump to a specific position
      * for later use in writing out the lexicon
      * @param terms
      */
     private void saveInvList(Map<String, TermInfo> terms)
     {
         String lineSeparator = System.getProperty("line.separator");
-        StringBuilder stringBuilder = new StringBuilder();
 
         //first save the inverted list
         //convert the doc map to a string using the format  docIndex,docNo\n
-        BufferedWriter writer = null;
+        OutputStream output = null;
+        long currentFilePosition =0;
         try
         {
-            writer = new BufferedWriter( new FileWriter(InvListFileName));
-            int lineCounter = 0;
+            output = new BufferedOutputStream(new FileOutputStream(InvListFileName));
             for (Map.Entry<String, TermInfo> entry : terms.entrySet())
             {
                 TermInfo termInfo = entry.getValue();
                 List<Posting> postings = termInfo.GetPostings();
-                for (Posting posting: postings) {
+                //save the current length of the file as the read position
+                termInfo.setInvListFilePosition(currentFilePosition);
+                entry.setValue(termInfo);
 
-                    stringBuilder.append(posting.docId);
-                    stringBuilder.append(",");
-                    stringBuilder.append(posting.withinDocFrequency);
-                    if(postings.indexOf(posting) != postings.size() -1)
-                    {
-                        stringBuilder.append(",");
-                    }
+                for (Posting posting: postings)
+                {
+
+                    output.write(posting.docId);
+                    output.write(posting.withinDocFrequency);
+                    currentFilePosition+=Integer.SIZE*2;
                 }
 
-                stringBuilder.append(lineSeparator);
-                writer.write(stringBuilder.toString());
-
                 //save the current file line number for use with lexicon file
-                termInfo.setInvListLineNum(lineCounter);
-                entry.setValue(termInfo);
-                lineCounter++;
 
                 //reset string builder
-                stringBuilder.setLength(0);
 
             }
 
@@ -87,8 +81,8 @@ public class IndexFileManager {
         {
             try
             {
-                if (writer != null)
-                    writer.close( );
+                if (output != null)
+                    output.close( );
             }
             catch (IOException ex)
             {
@@ -97,6 +91,10 @@ public class IndexFileManager {
         }
     }
 
+    /**
+     * write the terms to a lexicon file
+     * @param terms
+     */
     private void saveLexicon(Map<String, TermInfo> terms)
     {
         String lineSeparator = System.getProperty("line.separator");
@@ -117,9 +115,9 @@ public class IndexFileManager {
                 stringBuilder.append(",");
                 stringBuilder.append(termInfo.getDocumentFrequency());
                 stringBuilder.append(",");
-                stringBuilder.append(termInfo.getInvListLineNum());
+                stringBuilder.append(termInfo.getInvListFilePosition());
                 stringBuilder.append(lineSeparator);
-                writer.write(stringBuilder.toString());
+                writer.write(stringBuilder.toString()) ;
 
                 //reset string builder
                 stringBuilder.setLength(0);
@@ -152,7 +150,49 @@ public class IndexFileManager {
      */
     public Map<String,TermInfo> loadLexicon(String pathToLexicon)
     {
-        return null;
+        Map<String,TermInfo> lexicon = new HashMap<String, TermInfo>();
+
+        //load the file
+        FileReader fileReader = null;
+        try
+        {
+            fileReader  = new FileReader(pathToLexicon);
+        }catch (FileNotFoundException ex)
+        {
+            System.err.print(ex.getMessage());
+        }
+        BufferedReader reader = new BufferedReader(fileReader);
+        String line = null;
+
+        //read the first line
+        try
+        {
+            line = reader.readLine();
+        }catch (IOException ex)
+        {
+            System.err.print(ex.getMessage());
+        }
+
+        //loop through the lines, building the lexicon list
+        while(line != null)
+        {
+            String[] lineData =  line.split(",");
+            TermInfo termInfo = new TermInfo();
+            String term = lineData[0];
+            termInfo.setDocumentFrequency(Integer.valueOf(lineData[1]));
+            termInfo.setInvListFilePosition(Long.valueOf(lineData[2]));
+            lexicon.put(term, termInfo);
+            try
+            {
+                line = reader.readLine();
+            }catch (IOException ex)
+            {
+                System.err.print(ex.getMessage());
+                line= null;
+            }
+        }
+
+        return lexicon;
     }
 
 
@@ -167,14 +207,38 @@ public class IndexFileManager {
     }
 
     /**
-     * get a list of the postings at a particular line number in the inv lists file
-     * @param lineNum
+     * get s list of postings using the given term info and inv list file
+     * @param termInfo
+     * @param invListFileName
      * @return
      */
-    public List<Posting> getPostingAtLine(int lineNum)
+    public List<Posting> getPostings(TermInfo termInfo,String invListFileName)
     {
+
         List<Posting> postings = new ArrayList<Posting>();
-        return null;
+
+        DataInputStream inputStream = null;
+        try
+        {
+            inputStream  = new DataInputStream(new FileInputStream(invListFileName));
+            inputStream.skip(termInfo.getInvListFilePosition());
+            for (int i = 0; i < termInfo.getDocumentFrequency(); i++)
+            {
+                int docId = inputStream.readInt();
+                Posting posting = new Posting(docId);
+                posting.withinDocFrequency = inputStream.readInt();
+                postings.add(posting);
+            }
+            inputStream.close();
+        }catch(FileNotFoundException ex)
+        {
+        } catch (EOFException ignored)
+        {
+        } catch (IOException ex)
+        {
+
+        }
+        return postings;
 
     }
 
