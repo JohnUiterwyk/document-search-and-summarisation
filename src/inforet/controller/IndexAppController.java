@@ -21,7 +21,7 @@ public class IndexAppController {
     public IndexAppController(String[] args)
     {
 
-        long startTime = System.currentTimeMillis();
+
 
         //parse the args
         indexArgs.parseArgs(args);
@@ -50,9 +50,7 @@ public class IndexAppController {
         indexFileManager.saveToDisk(indexingModule.getTerms());
 
 
-        long endTime = System.currentTimeMillis();
         System.out.println("Term count: "+indexingModule.getTermCount());
-        System.out.println("Running time:" + (endTime - startTime) + " milliseconds");
 
     }
 }

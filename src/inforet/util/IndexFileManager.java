@@ -49,7 +49,7 @@ public class IndexFileManager {
         long currentFilePosition =0;
         try
         {
-            output = new DataOutputStream(new FileOutputStream(InvListFileName));
+            output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(InvListFileName)));
             for (Map.Entry<String, TermInfo> entry : terms.entrySet())
             {
                 TermInfo termInfo = entry.getValue();
