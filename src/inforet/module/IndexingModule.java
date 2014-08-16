@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class IndexingModule {
 
-    private Map<String, TermInfo> terms = new HashMap<String, TermInfo>();
+    private Map<String, TermInfo> terms = new HashMap<String, TermInfo>(300000);
     private int termCount = 0;
 
     public IndexingModule() {

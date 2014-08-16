@@ -1,7 +1,9 @@
 package inforet.module;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by johnuiterwyk on 12/08/2014.
@@ -13,7 +15,7 @@ public class TermInfo {
 
 
     private int documentFrequency = 0;
-    private List<Posting> postings = null;
+    private Map<Integer, Integer>  postings = null;
     public TermInfo()
     {
     }
@@ -28,38 +30,27 @@ public class TermInfo {
      */
     public void addOccurance(int docId)
     {
+        //if the posting table doesnt exist, create a new one
         if(postings == null)
         {
-            postings  = new ArrayList<Posting>();
+            postings  = new HashMap<Integer, Integer>(64);
         }
-        Boolean found = false;
 
-        for(Posting posting: postings)
+        //look up the docId
+        Integer withinDocFreq = postings.get(docId);
+        //if a value was not found, create a value
+        if(withinDocFreq == null)
         {
-            if(posting.docId == docId)
-            {
-                found = true;
-                posting.withinDocFrequency++;
-                break;
-            }
+            withinDocFreq = 0;
         }
-        if(!found)
-        {
-            postings.add(new Posting(docId));
-            this.documentFrequency++;
-        }
+        //increment the within doc freq and put it back in the hashmap
+        withinDocFreq++;
+        postings.put(docId,withinDocFreq);
+        this.documentFrequency++;
     }
 
-    /**
-     * This sets the list of postings.
-     * @param postings
-     */
-    public void setPostings(List<Posting> postings)
-    {
-        this.postings = postings;
-    }
 
-    public List<Posting> GetPostings()
+    public Map<Integer, Integer> GetPostings()
     {
         return postings;
     }

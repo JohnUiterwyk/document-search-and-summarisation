@@ -53,16 +53,16 @@ public class IndexFileManager {
             for (Map.Entry<String, TermInfo> entry : terms.entrySet())
             {
                 TermInfo termInfo = entry.getValue();
-                List<Posting> postings = termInfo.GetPostings();
+                Map<Integer, Integer> postingsMap = termInfo.GetPostings();
                 //save the current length of the file as the read position
                 termInfo.setInvListFilePosition(currentFilePosition);
                 entry.setValue(termInfo);
 
-                for (Posting posting: postings)
+                for (Map.Entry<Integer, Integer> posting : postingsMap.entrySet())
                 {
 
-                    output.writeInt(posting.docId);
-                    output.writeInt(posting.withinDocFrequency);
+                    output.writeInt(posting.getKey().intValue());
+                    output.writeInt(posting.getValue().intValue());
                     currentFilePosition+=(Integer.SIZE*2)/ Byte.SIZE;
                 }
 
