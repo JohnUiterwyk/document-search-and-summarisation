@@ -47,8 +47,8 @@ public class StopList {
     public static StopList getInstance(String stopFile){
         if ( instance == null ){
             instance = new StopList();
-            instance.initStopList(stopFile);
         }
+        instance.initStopList(stopFile);
         return instance;
     }
 

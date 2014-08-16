@@ -38,7 +38,7 @@ public class IndexArgs {
                 i++;
                 if(i < args.length - 1 )
                 {
-                    this.pathToStopWordsFile = args[i+1];
+                    this.pathToStopWordsFile = args[i];
 
                     //Set the Path to the StopList for the StopListController
                     StopListController.setStopListPath(pathToStopWordsFile);
