@@ -39,7 +39,7 @@ public class ParsingModule
     private Boolean inText = false;
 
 
-    private int currentDocId = -1;
+    private Integer currentDocId = -1;
 
     public ParsingModule()
     {
@@ -61,7 +61,7 @@ public class ParsingModule
 
     }
 
-    public int getCurrentDocId() {
+    public Integer getCurrentDocId() {
         return currentDocId;
     }
     public List<String> getDocIdMap() {

@@ -15,7 +15,7 @@ public class IndexingModule {
     public IndexingModule() {
     }
 
-    public void addTerm(String term, int docId)
+    public void addTerm(String term, Integer docId)
     {
         //check for word in map
         if(term.length() > 1)

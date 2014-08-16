@@ -28,7 +28,7 @@ public class TermInfo {
      *
      * @param docId
      */
-    public void addOccurance(int docId)
+    public void addOccurance(Integer docId)
     {
         //if the posting table doesnt exist, create a new one
         if(postings == null)
