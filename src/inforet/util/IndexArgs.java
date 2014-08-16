@@ -42,6 +42,7 @@ public class IndexArgs {
 
                     //Set the Path to the StopList for the StopListController
                     StopListController.setStopListPath(pathToStopWordsFile);
+                    StopListController.setEnabled();
                 }else
                 {
                     //TODO:throw invalid arguments error

@@ -17,6 +17,14 @@ public class StopListController {
         StopListController.stopListPath = stopListPath;
     }
 
+    private static Boolean enabled = false;
+    public static void setEnabled() {
+        StopListController.enabled = true;
+    }
+    public static Boolean isEnabled() {
+        return enabled;
+    }
+
     //Expose only one method
 
     /***
@@ -31,8 +39,6 @@ public class StopListController {
      * @return True if the query string matches a StopWord, False for otherwise.
      */
     public static boolean isStopWord(String query){
-        boolean ans = false;
-
         try {
             return StopList.getInstance().getStopList().containsKey( StopList.hashKey(query) );
         } catch (Exception e) {
