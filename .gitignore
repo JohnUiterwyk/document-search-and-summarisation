@@ -5,3 +5,5 @@ data/latimes_large.txt
 data/latimes_med.txt
 out
 map
+lexicon
+invlists

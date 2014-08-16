@@ -20,72 +20,129 @@ public class IndexFileManager {
 
     /**
      * save the term/termInfo map to a lexicon file and a inverted list file
-     * @param terms
+     * @param terms the hash map of terms from the indexing module
      */
     public void saveToDisk(Map<String, TermInfo> terms)
     {
+        this.saveInvList(terms);
+        this.saveLexicon(terms);
 
+
+        //store the line number in each terminfo
+        //then save the lexicon
+
+    }
+
+    /**
+     * write the postings to a file, saving the line number to the term info
+     * for later use in writing out the lexicon
+     * @param terms
+     */
+    private void saveInvList(Map<String, TermInfo> terms)
+    {
         String lineSeparator = System.getProperty("line.separator");
         StringBuilder stringBuilder = new StringBuilder();
 
         //first save the inverted list
+        //convert the doc map to a string using the format  docIndex,docNo\n
+        BufferedWriter writer = null;
+        try
         {
-            //convert the doc map to a string using the format  docIndex,docNo\n
-            BufferedWriter writer = null;
-            try
+            writer = new BufferedWriter( new FileWriter(InvListFileName));
+            int lineCounter = 0;
+            for (Map.Entry<String, TermInfo> entry : terms.entrySet())
             {
-                writer = new BufferedWriter( new FileWriter(InvListFileName));
-                int lineCounter = 0;
-                for (Map.Entry<String, TermInfo> entry : terms.entrySet())
-                {
-                    TermInfo termInfo = entry.getValue();
-                    List<Posting> postings = termInfo.GetPostings();
-                    for (Posting posting: postings) {
+                TermInfo termInfo = entry.getValue();
+                List<Posting> postings = termInfo.GetPostings();
+                for (Posting posting: postings) {
 
-                        stringBuilder.append(posting.docId);
+                    stringBuilder.append(posting.docId);
+                    stringBuilder.append(",");
+                    stringBuilder.append(posting.withinDocFrequency);
+                    if(postings.indexOf(posting) != postings.size() -1)
+                    {
                         stringBuilder.append(",");
-                        stringBuilder.append(posting.withinDocFrequency);
-                        if(postings.indexOf(posting) != postings.size() -1)
-                        {
-                            stringBuilder.append(",");
-                        }
                     }
-
-                    stringBuilder.append(lineSeparator);
-                    writer.write(stringBuilder.toString());
-
-                    //save the current file line number for use with lexicon file
-                    termInfo.setInvListLineNum(lineCounter);
-                    entry.setValue(termInfo);
-                    lineCounter++;
-
-                    //reset string builder
-                    stringBuilder.setLength(0);
-
                 }
 
+                stringBuilder.append(lineSeparator);
+                writer.write(stringBuilder.toString());
+
+                //save the current file line number for use with lexicon file
+                termInfo.setInvListLineNum(lineCounter);
+                entry.setValue(termInfo);
+                lineCounter++;
+
+                //reset string builder
+                stringBuilder.setLength(0);
+
+            }
+
+        }
+        catch (IOException ex)
+        {
+
+        }
+        finally
+        {
+            try
+            {
+                if (writer != null)
+                    writer.close( );
             }
             catch (IOException ex)
             {
 
             }
-            finally
-            {
-                try
-                {
-                    if (writer != null)
-                        writer.close( );
-                }
-                catch (IOException ex)
-                {
+        }
+    }
 
-                }
+    private void saveLexicon(Map<String, TermInfo> terms)
+    {
+        String lineSeparator = System.getProperty("line.separator");
+        StringBuilder stringBuilder = new StringBuilder();
+
+        //first save the inverted list
+        //convert the doc map to a string using the format  docIndex,docNo\n
+        BufferedWriter writer = null;
+        try
+        {
+            writer = new BufferedWriter( new FileWriter(LexiconFileName));
+            for (Map.Entry<String, TermInfo> entry : terms.entrySet())
+            {
+                String term = entry.getKey();
+                TermInfo termInfo = entry.getValue();
+
+                stringBuilder.append(term);
+                stringBuilder.append(",");
+                stringBuilder.append(termInfo.getDocumentFrequency());
+                stringBuilder.append(",");
+                stringBuilder.append(termInfo.getInvListLineNum());
+                stringBuilder.append(lineSeparator);
+                writer.write(stringBuilder.toString());
+
+                //reset string builder
+                stringBuilder.setLength(0);
+
             }
 
         }
-        //store the line number in each terminfo
-        //then save the lexicon
+        catch (IOException ex)
+        {
 
+        }
+        finally
+        {
+            try
+            {
+                if (writer != null)
+                    writer.close( );
+            }
+            catch (IOException ex)
+            {
+
+            }
+        }
     }
 
     /**
@@ -103,14 +160,14 @@ public class IndexFileManager {
      * load the inverted index file, but dont read it
      * @return a boolean indicating if the load was successful
      */
-    public Boolean mountInvIndexFile()
+    public Boolean loadInvIndexFile()
     {
         //get the file reader ready
         return null;
     }
 
     /**
-     * getPostingAtLine
+     * get a list of the postings at a particular line number in the inv lists file
      * @param lineNum
      * @return
      */
