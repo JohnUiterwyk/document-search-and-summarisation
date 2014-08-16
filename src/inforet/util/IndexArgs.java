@@ -5,6 +5,8 @@ import inforet.controller.StopListController;
 /**
  * Created by johnuiterwyk on 11/08/2014.
  * AppConfig parses the command line arguments into an easy to use object
+ *
+ *
  */
 public class IndexArgs {
 
