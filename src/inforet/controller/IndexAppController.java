@@ -1,6 +1,7 @@
 package inforet.controller;
 
 import inforet.module.IndexingModule;
+import inforet.module.StopList;
 import inforet.util.IndexArgs;
 import inforet.module.ParsingModule;
 import inforet.util.IndexFileManager;
@@ -15,6 +16,7 @@ import inforet.util.MapFileManager;
 public class IndexAppController {
 
     private ParsingModule parsingModule     = new ParsingModule();
+    private StopList stopList               = new StopList();
     private IndexingModule indexingModule   = new IndexingModule();
     private IndexArgs indexArgs             = new IndexArgs();
 
@@ -26,6 +28,10 @@ public class IndexAppController {
 
         //load the doc collection and get the first word
         parsingModule.loadFile(indexArgs.pathToDocsFile);
+        if(indexArgs.useStopWords)
+        {
+            stopList.initStopList(indexArgs.pathToStopWordsFile);
+        }
         //Get the next word from the document collection
         //The first word in this case.
         String term = parsingModule.getNextWord();
@@ -37,7 +43,11 @@ public class IndexAppController {
             {
                 System.out.println(term);
             }
-            indexingModule.addTerm(term,parsingModule.getCurrentDocId());
+
+            //Ignore entry if it is a stop word.
+            if(!stopList.isEnabled() || !stopList.contains(term)){
+                indexingModule.addTerm(term,parsingModule.getCurrentDocId());
+            }
             term = parsingModule.getNextWord();
         }
 

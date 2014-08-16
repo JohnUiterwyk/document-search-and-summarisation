@@ -1,6 +1,5 @@
 package inforet.util;
 
-import inforet.controller.StopListController;
 
 /**
  * Created by johnuiterwyk on 11/08/2014.
@@ -40,9 +39,6 @@ public class IndexArgs {
                 {
                     this.pathToStopWordsFile = args[i];
 
-                    //Set the Path to the StopList for the StopListController
-                    StopListController.setStopListPath(pathToStopWordsFile);
-                    StopListController.setEnabled();
                 }else
                 {
                     //TODO:throw invalid arguments error

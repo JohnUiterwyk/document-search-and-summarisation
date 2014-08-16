@@ -13,19 +13,21 @@ import java.util.HashMap;
  */
 public class StopList {
 
-    // Singleton Pattern
     // Load StopList on First Call
-    private static StopList instance = null;
     HashMap<Integer, String> stopList = null;
 
     // Model ======================================================
-    private StopList() {
-       // EMPTY Constructor
+    public StopList() {
     }
 
-    public static void setInstance(StopList instance) {
-        StopList.instance = instance;
+    private  Boolean enabled = false;
+    public  void setEnabled() {
+        this.enabled = true;
     }
+    public Boolean isEnabled() {
+        return enabled;
+    }
+
 
     public HashMap<Integer, String> getStopList() {
         return stopList;
@@ -35,22 +37,6 @@ public class StopList {
         this.stopList = stopList;
     }
 
-    // Get Singleton ==============================================
-    public static StopList getInstance() throws Exception {
-        if ( instance == null ){
-            instance = new StopList();
-            throw new Exception("No StopList file path given. Use StopList.getInstance(stopFilePath) to give path.");
-        }
-        return instance;
-    }
-
-    public static StopList getInstance(String stopFile){
-        if ( instance == null ){
-            instance = new StopList();
-        }
-        instance.initStopList(stopFile);
-        return instance;
-    }
 
     // Normalise Stoplist Transform
     public static String normalize(String s){
@@ -63,7 +49,7 @@ public class StopList {
     }
 
     // Initialise Stop List ======================================
-    private void initStopList(String stopFile){
+    public void initStopList(String stopFile){
 
         //Read File
         try {
@@ -74,6 +60,7 @@ public class StopList {
                 // Processing the Stop Word
                 insertStopWord(word);
             }
+            setEnabled();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -93,6 +80,11 @@ public class StopList {
             // Insert if not existing
             this.getStopList().put(hashKey, word);
         }
+    }
+
+    public Boolean contains(String word)
+    {
+        return stopList.containsKey(StopList.hashKey(word));
     }
 
     // CRUD Interface for StopList

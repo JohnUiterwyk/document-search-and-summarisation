@@ -1,6 +1,4 @@
 package inforet.module;
-import inforet.controller.StopListController;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,10 +17,6 @@ public class IndexingModule {
 
     public void addTerm(String term, int docId)
     {
-        //Ignore entry if it is a stop word.
-        if(StopListController.isEnabled() && StopListController.isStopWord(term)){
-            return;
-        }
         //check for word in map
         if(term.length() > 1)
             if (terms.containsKey(term) == false) {
