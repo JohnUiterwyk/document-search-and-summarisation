@@ -1,5 +1,7 @@
 package inforet;
 
+import inforet.controller.QueryController;
+
 /**
  * Created by johnuiterwyk on 6/08/2014.
  *
@@ -10,7 +12,7 @@ public class search {
 
     public static void main(String[] args) {
         // write your code here
-        System.out.println("search app");
+        new QueryController(args);
 
 
     }

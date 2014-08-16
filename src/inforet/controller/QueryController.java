@@ -1,10 +1,7 @@
 package inforet.controller;
 
-import com.sun.xml.internal.xsom.impl.Ref;
 import inforet.module.Posting;
 import inforet.module.TermInfo;
-import inforet.module.query.LoadLexicon;
-import inforet.module.query.LoadMap;
 import inforet.util.IndexFileManager;
 import inforet.util.MapFileManager;
 import inforet.util.QueryArgs;

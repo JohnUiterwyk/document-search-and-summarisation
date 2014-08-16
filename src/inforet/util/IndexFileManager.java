@@ -45,11 +45,11 @@ public class IndexFileManager {
 
         //first save the inverted list
         //convert the doc map to a string using the format  docIndex,docNo\n
-        OutputStream output = null;
+        DataOutputStream output = null;
         long currentFilePosition =0;
         try
         {
-            output = new BufferedOutputStream(new FileOutputStream(InvListFileName));
+            output = new DataOutputStream(new FileOutputStream(InvListFileName));
             for (Map.Entry<String, TermInfo> entry : terms.entrySet())
             {
                 TermInfo termInfo = entry.getValue();
@@ -61,9 +61,9 @@ public class IndexFileManager {
                 for (Posting posting: postings)
                 {
 
-                    output.write(posting.docId);
-                    output.write(posting.withinDocFrequency);
-                    currentFilePosition+=Integer.SIZE*2;
+                    output.writeInt(posting.docId);
+                    output.writeInt(posting.withinDocFrequency);
+                    currentFilePosition+=(Integer.SIZE*2)/ Byte.SIZE;
                 }
 
                 //save the current file line number for use with lexicon file
@@ -232,11 +232,16 @@ public class IndexFileManager {
             inputStream.close();
         }catch(FileNotFoundException ex)
         {
-        } catch (EOFException ignored)
+            System.err.println(ex.getMessage());
+        } catch (EOFException ex)
         {
+            System.err.println(ex.getMessage());
         } catch (IOException ex)
         {
-
+            System.err.println(ex.getMessage());
+        }catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
         }
         return postings;
 

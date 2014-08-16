@@ -133,6 +133,8 @@ public class ParsingModule
                     this.inDoc = false;
                 } else if (firstWord.equals("<DOCNO>")) {
                     this.currentDocId = docIdMap.size();
+                    lineWords.clear();
+                    lineWords.addAll(Arrays.asList(line.split("[\\s]")));
                     docIdMap.add(lineWords.get(1));
                 } else if (firstWord.equals("<HEADLINE>")) {
                     this.inHeadline = true;
