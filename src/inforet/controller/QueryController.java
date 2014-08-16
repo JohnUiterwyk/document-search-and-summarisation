@@ -1,10 +1,17 @@
 package inforet.controller;
 
+import com.sun.xml.internal.xsom.impl.Ref;
+import inforet.module.Posting;
+import inforet.module.TermInfo;
 import inforet.module.query.LoadLexicon;
 import inforet.module.query.LoadMap;
+import inforet.util.IndexFileManager;
+import inforet.util.MapFileManager;
 import inforet.util.QueryArgs;
 
 import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Daniel on 16/08/2014.
@@ -30,13 +37,30 @@ public class QueryController {
             System.err.printf("Invalid Arguments received. Please check your arguments passed to ./query");
         }
 
-        //Load the files
-        LoadLexicon lex = new LoadLexicon();
-        LoadMap     map = new LoadMap();
+        //Load the doc id map
+        MapFileManager mapFileManager = new MapFileManager();
+        List<String> docIds = mapFileManager.loadDocIdMap(qargs.mapPath);
+
+        IndexFileManager indexFileManager = new IndexFileManager();
+        Map<String,TermInfo> lexicon = indexFileManager.loadLexicon(qargs.lexiconPath);
 
         //Do the query
-        for ( String str : qargs.query ){
-            //TODO : Perform query over each 'str' term
+        for ( String term : qargs.query ){
+            System.out.println("Term: "+term);
+            if (lexicon.containsKey(term)) {
+                TermInfo termInfo = lexicon.get(term);
+                List<Posting> postings = indexFileManager.getPostings(termInfo,qargs.invlistPath);
+                //output info
+                System.out.println("Doc Freq: "+termInfo.getDocumentFrequency());
+                for(Posting posting:postings)
+                {
+                    System.out.println("Doc: "+docIds.get(posting.docId)+" "+posting.withinDocFrequency);
+                }
+            }else
+            {
+
+                System.out.println("Doc Freq: 0");
+            }
         }
 
     }
