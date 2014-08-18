@@ -42,11 +42,11 @@ public class TermInfo {
         if(withinDocFreq == null)
         {
             withinDocFreq = 0;
+            this.documentFrequency++;
         }
         //increment the within doc freq and put it back in the hashmap
         withinDocFreq++;
         postings.put(docId,withinDocFreq);
-        this.documentFrequency++;
     }
 
 

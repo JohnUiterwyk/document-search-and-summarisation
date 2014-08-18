@@ -49,10 +49,13 @@ public class QueryController {
                 List<Posting> postings = indexFileManager.getPostings(termInfo,qargs.invlistPath);
                 //output info
                 System.out.println("Doc Freq: "+termInfo.getDocumentFrequency());
+                int totalOccurances = 0;
                 for(Posting posting:postings)
                 {
+                    totalOccurances+=posting.withinDocFrequency;
                     System.out.println("Doc: "+docIds.get(posting.docId)+" "+posting.withinDocFrequency);
                 }
+                System.out.println("Total occurances: "+totalOccurances);
             }else
             {
 
