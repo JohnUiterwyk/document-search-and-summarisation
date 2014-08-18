@@ -124,15 +124,15 @@ public class ParsingModule
 
     private Boolean parseLine(String line)
     {
-        //fist split the line on spaces and dashes
-        lineWords.addAll(Arrays.asList(line.split("[\\s\\-]")));
 
-        if(lineWords.size() > 0) {
-            //if any words resulted, get the first word
-            String firstWord = lineWords.get(0);
+        if(line.length() > 0) {
 
             //and check if the word is tag
-            if (line.length() > 0 && line.charAt(0) == '<') {
+            if (line.charAt(0) == '<') {
+                //fist split the line on spaces and dashes
+                lineWords.addAll(Arrays.asList(line.split("[\\s\\-]")));
+                String firstWord = lineWords.get(0);
+
                 if (firstWord.equals("<DOC>")) {
                     this.inDoc = true;
                 } else if (firstWord.equals("</DOC>")) {
@@ -152,6 +152,8 @@ public class ParsingModule
                     this.inText = false;
                 }
             } else if (this.inDoc && (this.inHeadline || this.inText)) {
+                //fist split the line on spaces and dashes and slashes
+                lineWords.addAll(Arrays.asList(line.split("[/\\s\\-]")));
                 return true;
             }
         }
