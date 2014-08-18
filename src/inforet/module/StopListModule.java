@@ -55,7 +55,7 @@ public class StopListModule {
 
     private void insertStopWord(String word){
         if (this.stopList == null){
-            this.stopList= new HashSet<String>();
+            this.stopList= new HashSet<String>(630);
         }
         // Check hashMap for existing
         if ( !stopList.contains( word )){

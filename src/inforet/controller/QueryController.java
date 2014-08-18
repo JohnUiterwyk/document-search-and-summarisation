@@ -44,8 +44,8 @@ public class QueryController {
         //Do the query
         for ( String term : qargs.query ){
             System.out.println("Term: "+term);
-            if (lexicon.containsKey(term)) {
-                TermInfo termInfo = lexicon.get(term);
+            TermInfo termInfo = lexicon.get(term);
+            if (termInfo != null) {
                 List<Posting> postings = indexFileManager.getPostings(termInfo,qargs.invlistPath);
                 //output info
                 System.out.println("Doc Freq: "+termInfo.getDocumentFrequency());

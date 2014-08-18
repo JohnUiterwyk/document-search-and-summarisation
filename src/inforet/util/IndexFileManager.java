@@ -223,8 +223,8 @@ public class IndexFileManager {
             inputStream.skip(termInfo.getInvListFilePosition());
             for (int i = 0; i < termInfo.getDocumentFrequency(); i++)
             {
-                int docId = inputStream.readInt();
-                Posting posting = new Posting(docId);
+                Posting posting = new Posting();
+                posting.docId = inputStream.readInt();
                 posting.withinDocFrequency = inputStream.readInt();
                 postings.add(posting);
             }
