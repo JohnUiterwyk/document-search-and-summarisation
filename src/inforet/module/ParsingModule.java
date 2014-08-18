@@ -71,8 +71,7 @@ public class ParsingModule
     /***
      * getNextWord from the Document Collection.
      * This method reads the predefined Document Library, reading the Document Contents
-     * line by line, ignorning numbers, whitespace & individual characters and adding it to the
-     * word index. TODO (Whats a word Index ? Number of unique words in the lexicon?)
+     * line by line, ignorning numbers, whitespace & individual characters
      * @return nextWord
      */
     public String getNextWord()

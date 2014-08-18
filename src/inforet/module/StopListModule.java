@@ -7,17 +7,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Daniel on 12/08/2014.
  */
-public class StopList {
+public class StopListModule {
 
     // Load StopList on First Call
-    HashMap<Integer, String> stopList = null;
+    Set<String> stopList = null;
 
     // Model ======================================================
-    public StopList() {
+    public StopListModule() {
     }
 
     private  Boolean enabled = false;
@@ -28,25 +30,6 @@ public class StopList {
         return enabled;
     }
 
-
-    public HashMap<Integer, String> getStopList() {
-        return stopList;
-    }
-
-    public void setStopList(HashMap<Integer, String> stopList) {
-        this.stopList = stopList;
-    }
-
-
-    // Normalise Stoplist Transform
-    public static String normalize(String s){
-        return s.trim().toLowerCase();
-    }
-
-    public static Integer hashKey(String s){
-        Integer i = normalize(s).hashCode();
-        return i;
-    }
 
     // Initialise Stop List ======================================
     public void initStopList(String stopFile){
@@ -71,20 +54,19 @@ public class StopList {
     }
 
     private void insertStopWord(String word){
-        if (this.getStopList() == null){
-            this.setStopList( new HashMap<Integer, String>());
+        if (this.stopList == null){
+            this.stopList= new HashSet<String>();
         }
-        Integer hashKey = Integer.valueOf( word.toLowerCase().trim().hashCode() );
         // Check hashMap for existing
-        if ( stopList.get( hashKey )  == null){
+        if ( !stopList.contains( word )){
             // Insert if not existing
-            this.getStopList().put(hashKey, word);
+            this.stopList.add(word);
         }
     }
 
     public Boolean contains(String word)
     {
-        return stopList.containsKey(StopList.hashKey(word));
+        return stopList.contains(word);
     }
 
     // CRUD Interface for StopList

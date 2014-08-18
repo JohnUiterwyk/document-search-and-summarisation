@@ -41,7 +41,6 @@ public class IndexFileManager {
      */
     private void saveInvList(Map<String, TermInfo> terms)
     {
-        String lineSeparator = System.getProperty("line.separator");
 
         //first save the inverted list
         //convert the doc map to a string using the format  docIndex,docNo\n
