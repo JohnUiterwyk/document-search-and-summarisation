@@ -20,6 +20,7 @@ public class index {
         new IndexAppController(args); //Let it begin
 
         //Print out some timing information
+        /** Uncomment for Timing
         long endTime = System.currentTimeMillis();
         System.out.println("Running time:" + (endTime - startTime) + " milliseconds");
         long millis = (endTime - startTime);
@@ -29,5 +30,7 @@ public class index {
                                                   TimeUnit.MINUTES.toSeconds
                                                   (TimeUnit.MILLISECONDS.toMinutes(millis))
         ));
+
+         */
     }
 }

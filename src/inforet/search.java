@@ -14,9 +14,9 @@ public class search {
         long startTime = System.currentTimeMillis();
 
         new QueryController(args);
-
+        /** Uncomment for Timing
         long endTime = System.currentTimeMillis();
         System.out.println("Running time:" + (endTime - startTime) + " milliseconds");
-
+        */
     }
 }

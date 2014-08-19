@@ -59,8 +59,8 @@ public class IndexAppController {
         IndexFileManager indexFileManager = new IndexFileManager();
         indexFileManager.saveToDisk(indexingModule.getTerms());
 
-
+        /**
         System.out.println("Term count: "+indexingModule.getTermCount());
-
+        */
     }
 }
