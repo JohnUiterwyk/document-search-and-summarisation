@@ -47,9 +47,9 @@ public class StopListModule {
             setEnabled();
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.err.println(stopFile+" not found.");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("IO error reading "+stopFile);
         }
 
     }

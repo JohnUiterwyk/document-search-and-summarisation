@@ -35,8 +35,9 @@ public class QueryController {
         try {
             queryArgs.parseArgs(args);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.printf("Invalid Arguments received. Please check your arguments passed to ./query");
+            //e.printStackTrace();
+            System.err.println("Invalid Arguments received. Please check your arguments passed to ./query");
+            return;
         }
 
         //Load the doc id map

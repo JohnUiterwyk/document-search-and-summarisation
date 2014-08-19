@@ -66,7 +66,7 @@ public class MapFileManager  {
             fileReader  = new FileReader(pathToFile);
         }catch (FileNotFoundException ex)
         {
-            System.err.print(ex.getMessage());
+            System.err.println(pathToFile+" not found.");
         }
         BufferedReader reader = new BufferedReader(fileReader);
         String line = null;
@@ -76,7 +76,7 @@ public class MapFileManager  {
             line = reader.readLine();
         }catch (IOException ex)
         {
-            System.err.print(ex.getMessage());
+            System.err.println("IO exception.");
         }
         while(line != null)
         {
@@ -87,7 +87,7 @@ public class MapFileManager  {
                 line = reader.readLine();
             }catch (IOException ex)
             {
-                System.err.print(ex.getMessage());
+                System.err.println("IO exception.");
                 line= null;
             }
         }

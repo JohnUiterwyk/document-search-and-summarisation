@@ -41,17 +41,18 @@ public class ParsingModule
 
     }
 
-    public void loadFile(String pathToFile)
+    public Boolean loadFile(String pathToFile)
     {
         try
         {
             fileReader = new FileReader(pathToFile);
         }catch (FileNotFoundException ex)
         {
-            System.err.print(ex.getMessage());
-            return;
+            System.err.println("IO Error reading "+ pathToFile);
+            return false;
         }
         reader = new BufferedReader(fileReader);
+        return true;
 
 
     }

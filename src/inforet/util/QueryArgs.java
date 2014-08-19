@@ -76,6 +76,6 @@ public class QueryArgs {
         StringBuilder sb = new StringBuilder();
         sb.append("Usage : \n");
         sb.append("java ./search <lexicon> <invlist> <map> query_terms...");
-        System.out.printf(sb.toString());
+        System.out.println(sb.toString());
     }
 }

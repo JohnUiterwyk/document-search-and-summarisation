@@ -44,11 +44,12 @@ public class IndexAppController {
         indexArgs.parseArgs(args);
 
         //load the doc collection and get the first word
-        parsingModule.loadFile(indexArgs.pathToDocsFile);
+        Boolean docsLoaded = parsingModule.loadFile(indexArgs.pathToDocsFile);
         if(indexArgs.useStopWords)
         {
             stopListModule.initStopList(indexArgs.pathToStopWordsFile);
         }
+        if(!docsLoaded)return;
         //Get the next word from the document collection
         //The first word in this case.
         String term = parsingModule.getNextWord();

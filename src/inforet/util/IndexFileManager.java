@@ -74,6 +74,7 @@ public class IndexFileManager {
         }
         catch (IOException ex)
         {
+            System.err.println("IO Error saving "+ InvListFileName);
 
         }
         finally
@@ -85,6 +86,7 @@ public class IndexFileManager {
             }
             catch (IOException ex)
             {
+                System.err.println("IO Error saving "+ InvListFileName);
 
             }
         }
@@ -126,6 +128,7 @@ public class IndexFileManager {
         }
         catch (IOException ex)
         {
+            System.err.println("IO Error saving "+ LexiconFileName);
 
         }
         finally
@@ -137,6 +140,7 @@ public class IndexFileManager {
             }
             catch (IOException ex)
             {
+                System.err.println("IO Error saving "+ LexiconFileName);
 
             }
         }
@@ -158,7 +162,7 @@ public class IndexFileManager {
             fileReader  = new FileReader(pathToLexicon);
         }catch (FileNotFoundException ex)
         {
-            System.err.print(ex.getMessage());
+            System.err.println(pathToLexicon+" not found.");
         }
         BufferedReader reader = new BufferedReader(fileReader);
         String line = null;
@@ -169,7 +173,7 @@ public class IndexFileManager {
             line = reader.readLine();
         }catch (IOException ex)
         {
-            System.err.print(ex.getMessage());
+            System.err.println("IO Error reading "+pathToLexicon);
         }
 
         //loop through the lines, building the lexicon list
@@ -186,7 +190,7 @@ public class IndexFileManager {
                 line = reader.readLine();
             }catch (IOException ex)
             {
-                System.err.print(ex.getMessage());
+                System.err.println("IO Error reading "+pathToLexicon);
                 line= null;
             }
         }
@@ -231,16 +235,14 @@ public class IndexFileManager {
             inputStream.close();
         }catch(FileNotFoundException ex)
         {
-            System.err.println(ex.getMessage());
+            System.err.println(invListFileName+" is not found");
         } catch (EOFException ex)
         {
-            System.err.println(ex.getMessage());
         } catch (IOException ex)
         {
-            System.err.println(ex.getMessage());
+            System.err.println("IO Error reading "+invListFileName);
         }catch (Exception ex)
         {
-            System.err.println(ex.getMessage());
         }
         return postings;
 
