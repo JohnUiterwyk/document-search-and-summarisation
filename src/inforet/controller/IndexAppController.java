@@ -20,6 +20,23 @@ public class IndexAppController {
     private IndexingModule indexingModule   = new IndexingModule();
     private IndexArgs indexArgs             = new IndexArgs();
 
+    /***
+     * This controller constructor governs the whole Indexing Process.
+     * It initialises a stopList if given, calls on a parser to retrieve the nextWord
+     * to be indexed from the document collection and hands it over to the Lexicon & Inverted List
+     * creation processes. Once there is nothing more to read from the document collection, the
+     * Lexicon, Inverted List and Document Map is written out to "lexicon", "invlists", and "map" accordingly.
+     *
+     * This controller is coupled with :
+     * - IndexingModule
+     * - ParsingModule
+     * - IndexFileManager
+     * - MapFileManager
+     * - IndexArgs
+     * - StopListModule
+     *
+     * @param args
+     */
     public IndexAppController(String[] args)
     {
 

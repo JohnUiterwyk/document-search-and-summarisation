@@ -22,6 +22,9 @@ public class QueryController {
 
     /***
      * Perform the query tasks upon instantiation of the controller.
+     * This parses the query into a usable bag of words upon which a query of each query term is done
+     * against the inverted index.
+     *
      * @param args
      */
     public QueryController(String[] args){

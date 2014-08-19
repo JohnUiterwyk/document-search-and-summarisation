@@ -15,6 +15,14 @@ public class IndexingModule {
     public IndexingModule() {
     }
 
+    /***
+     * Adds a term into the Lexicon.
+     * This method also increments the corresponding term occurrence count in the
+     * inverted index.
+     *
+     * @param term
+     * @param docId
+     */
     public void addTerm(String term, Integer docId)
     {
         //check for word in map

@@ -122,6 +122,15 @@ public class ParsingModule
         return result;
     }
 
+    /***
+     * Parses a line of text from an SGML document.
+     * It splits text within the <HEADLINE> </HEADLINE> and <TEXT></TEXT> tags
+     * into an array list of terms. These words are added to the "linewords" List
+     * which is retrieved by getNextWord(); method to return the next word to the caller.
+     *
+     * @param line
+     * @return
+     */
     private Boolean parseLine(String line)
     {
 
