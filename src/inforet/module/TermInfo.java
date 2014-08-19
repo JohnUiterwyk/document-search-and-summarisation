@@ -12,7 +12,7 @@ public class TermInfo {
 
 
     private long invListFilePosition = -1;
-
+    private int postingHashMapSize = 8;
 
     private int documentFrequency = 0;
     private Map<Integer, Integer>  postings = null;
@@ -33,7 +33,7 @@ public class TermInfo {
         //if the posting table doesnt exist, create a new one
         if(postings == null)
         {
-            postings  = new HashMap<Integer, Integer>(64);
+            postings  = new HashMap<Integer, Integer>(postingHashMapSize);
         }
 
         //look up the docId

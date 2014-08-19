@@ -18,9 +18,6 @@ import java.util.regex.Pattern;
  * http://stackoverflow.com/questions/6239061/regular-expression-to-remove-everything-but-characters-and-numbers
  * http://stackoverflow.com/questions/1757363/java-hashmap-performance-optimization-alternative
  * http://blog.manishchhabra.com/2012/08/the-5-main-differences-betwen-hashmap-and-hashtable/
- *
- *
- *
  */
 public class ParsingModule
 {
@@ -30,8 +27,6 @@ public class ParsingModule
     private List<String> lineWords = new ArrayList<String>();
     private int wordIndex = 0;
     private String line = null;
-
-    private Pattern notNumAndLetters = Pattern.compile("[^a-z0-9]+");
 
 
     private Boolean inDoc = false;
@@ -162,7 +157,7 @@ public class ParsingModule
                 }
             } else if (this.inDoc && (this.inHeadline || this.inText)) {
                 //fist split the line on spaces and dashes and slashes
-                lineWords.addAll(Arrays.asList(line.split("[/\\s\\-]")));
+                lineWords.addAll(Arrays.asList(TermNormalizer.stringToTerms(line)));
                 return true;
             }
         }

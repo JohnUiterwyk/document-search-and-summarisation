@@ -13,7 +13,7 @@ public class QueryArgs {
     public String lexiconPath = "";
     public String invlistPath = "";
     public String mapPath     = "";
-    public ArrayList<String> query = null;
+    public String queryString = null;
 
     //Configurations
     private static int minArgs = 3;
@@ -60,11 +60,13 @@ public class QueryArgs {
         mapPath     = args[2];
 
         //Set the query terms
-        query = new ArrayList<String>();
-
+        queryString = new String();
+        StringBuilder sb = new StringBuilder();
         for ( int i = 3; i < args.length; i++){
-            query.add(args[i]);
+            sb.append(args[i]);
+            sb.append(" ");
         }
+        queryString = sb.toString();
     }
 
     /***

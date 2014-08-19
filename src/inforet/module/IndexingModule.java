@@ -8,8 +8,8 @@ import java.util.Map;
  *
  */
 public class IndexingModule {
-
-    private Map<String, TermInfo> terms = new HashMap<String, TermInfo>(300000);
+    private int hashMapSize = 400000; //Initial Size of HashMap : number of documents in the collection / 0.75
+    private Map<String, TermInfo> terms = new HashMap<String, TermInfo>(hashMapSize);
     private int termCount = 0;
 
     public IndexingModule() {

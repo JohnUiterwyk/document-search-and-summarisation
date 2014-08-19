@@ -17,6 +17,7 @@ public class StopListModule {
 
     // Load StopList on First Call
     Set<String> stopList = null;
+    int hashSetSize = 630; // This is calculated from the number of lines in the stoplist / 0.75
 
     // Model ======================================================
     public StopListModule() {
@@ -55,7 +56,7 @@ public class StopListModule {
 
     private void insertStopWord(String word){
         if (this.stopList == null){
-            this.stopList= new HashSet<String>(630);
+            this.stopList= new HashSet<String>(hashSetSize);
         }
         // Check hashMap for existing
         if ( !stopList.contains( word )){
