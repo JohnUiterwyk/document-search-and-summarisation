@@ -1,0 +1,26 @@
+#!/bin/sh
+OUTPUT_FILE=~/public_html/index.html
+DEPLOY_DIR=~/git/rmit-ir-a1/
+
+TIMESTAMP=$(date +"%m-%d-%Y %T")
+
+#get the current git details
+BRANCH=$(git rev-parse --symbolic --abbrev-ref $1)
+COMMIT_HASH=$(git rev-parse --short HEAD)
+COMMIT_MESSAGE=$(git log -1 HEAD --pretty=format:%s)
+
+#checkout the lastest version
+export GIT_WORK_TREE=$DEPLOY_DIR
+CHECKOUT_RESULT=$(git checkout $BRANCH -f)
+
+#compile and run
+cd $DEPLOY_DIR
+RUN_RESULT=$(./compileAndRunSearch.sh)
+
+#output to html file
+echo "$TIMESTAMP" > $OUTPUT_FILE
+echo "Commit: $COMMIT_HASH - $COMMIT_MESSAGE" >> $OUTPUT_FILE
+echo "Branch: $BRANCH" >> $OUTPUT_FILE
+echo "$CHECKOUT_RESULT" >> $OUTPUT_FILE
+echo "$RUN_RESULT" >> $OUTPUT_FILE
+sed -i 's/$/<br>/g' $OUTPUT_FILE
