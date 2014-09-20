@@ -56,6 +56,7 @@ public class DocumentCollection
 
 
         Long position = 0l;
+        Long totalLength = 0l;
         Boolean endOfFile = false;
         while(endOfFile == false)
         {
@@ -71,9 +72,13 @@ public class DocumentCollection
             }catch (IOException ex)
             {
                 endOfFile = true;
-                System.err.print(ex.getMessage());
+                //System.err.print(ex.getMessage());
             }
         }
+        try
+        {
+            fileInputStream.close();
+        }catch (IOException ex){}
     }
     public Document parseNextDocument(LineReader reader) throws IOException
     {

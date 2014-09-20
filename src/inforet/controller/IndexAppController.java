@@ -82,7 +82,7 @@ public class IndexAppController {
             }
         }
 
-
+        documentCollection.saveMapToFile();
 
         //save the map file
         //MapFileManager mapFileManager = new MapFileManager();

@@ -1,5 +1,7 @@
 package inforet.module;
 
+import inforet.model.Document;
+import inforet.model.DocumentCollection;
 import inforet.util.IndexFileManager;
 import inforet.util.MapFileManager;
 import inforet.util.QueryArgs;
@@ -19,8 +21,9 @@ public class QueryModule
     public QueryModule(QueryArgs queryArgs)
     {
         //Load the doc id map
-        MapFileManager mapFileManager = new MapFileManager();
-        List<String> docIds = mapFileManager.loadDocIdMap(queryArgs.mapPath);
+
+        DocumentCollection documents = new DocumentCollection();
+        documents.loadFromMapFile(queryArgs.mapPath);
 
         IndexFileManager indexFileManager = new IndexFileManager();
         Map<String,TermInfo> lexicon = indexFileManager.loadLexicon(queryArgs.lexiconPath);
@@ -42,7 +45,8 @@ public class QueryModule
                 for(Posting posting:postings)
                 {
                     totalOccurances+=posting.withinDocFrequency;
-                    System.out.println("Doc: "+docIds.get(posting.docId)+" "+posting.withinDocFrequency);
+                    Document doc = documents.getDocumentByIndex(posting.docId, false);
+                    System.out.println("Doc: "+doc.getIdentifier()+" "+posting.withinDocFrequency);
                 }
                 System.out.println("Total occurances: "+totalOccurances);
             }else

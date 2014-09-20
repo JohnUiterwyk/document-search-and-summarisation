@@ -81,7 +81,7 @@ public class MapFileManager  {
         while(line != null)
         {
             String[] lineData =  line.split(",");
-            docIdMap.add(Integer.parseInt(lineData[0]), lineData[1]);
+            docIdMap.add( lineData[1]);
             try
             {
                 line = reader.readLine();
