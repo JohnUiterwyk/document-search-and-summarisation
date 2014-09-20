@@ -12,7 +12,9 @@ public class TermNormalizer {
         return notNumAndLetters.matcher(str.toLowerCase().trim()).replaceAll("");
     }
 
-    public static String[] stringToTerms(String str){
-        return str.split("[/\\s\\-]");
+    public static String[] stringToTerms(String str)
+    {
+
+        return notNumAndLetters.matcher(str.toLowerCase().trim()).replaceAll(" ").split("[/\\s\\-\\n]");
     }
 }

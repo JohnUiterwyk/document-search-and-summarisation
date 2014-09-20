@@ -1,11 +1,16 @@
 package inforet.controller;
 
+import inforet.model.Document;
+import inforet.model.DocumentCollection;
 import inforet.module.IndexingModule;
 import inforet.module.StopListModule;
 import inforet.util.IndexArgs;
 import inforet.module.ParsingModule;
 import inforet.util.IndexFileManager;
 import inforet.util.MapFileManager;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by johnuiterwyk on 11/08/2014.
@@ -44,34 +49,44 @@ public class IndexAppController {
         indexArgs.parseArgs(args);
 
         //load the doc collection and get the first word
-        Boolean docsLoaded = parsingModule.loadFile(indexArgs.pathToDocsFile);
+
         if(indexArgs.useStopWords)
         {
             stopListModule.initStopList(indexArgs.pathToStopWordsFile);
         }
-        if(!docsLoaded)return;
+
+
         //Get the next word from the document collection
         //The first word in this case.
-        String term = parsingModule.getNextWord();
+        DocumentCollection documentCollection = new DocumentCollection();
+        documentCollection.setPathToCollection(indexArgs.pathToDocsFile);
+        documentCollection.parseCollection();
 
-        //loop through the collection extract term/doc pairs
-        while(term != null)
+        //loop through documents getting word lists
+        Collection<Document> documents = documentCollection.getDocuments();
+        for(Document document:documents)
         {
-            if(indexArgs.printIndexTerms)
+            List<String> words = document.getListOfWords();
+            //loop through word list
+            for(String word : words)
             {
-                System.out.println(term);
-            }
+                if(indexArgs.printIndexTerms)
+                {
+                    System.out.println(word);
+                }
 
-            //Ignore entry if it is a stop word.
-            if(!stopListModule.isEnabled() || !stopListModule.contains(term)){
-                indexingModule.addTerm(term,parsingModule.getCurrentDocId());
+                //Ignore entry if it is a stop word.
+                if(!stopListModule.isEnabled() || !stopListModule.contains(word)){
+                    indexingModule.addTerm(word,document.getIndex());
+                }
             }
-            term = parsingModule.getNextWord();
         }
 
+
+
         //save the map file
-        MapFileManager mapFileManager = new MapFileManager();
-        mapFileManager.saveDocIdMap(parsingModule.getDocIdMap());
+        //MapFileManager mapFileManager = new MapFileManager();
+        //mapFileManager.saveDocIdMap(parsingModule.getDocIdMap());
 
         //save the lexicon and inverted list
         IndexFileManager indexFileManager = new IndexFileManager();

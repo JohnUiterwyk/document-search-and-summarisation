@@ -1,19 +1,30 @@
 package inforet.model;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Created by johnuiterwyk on 20/09/2014.
  */
 public class Model
 {
+    private DocumentCollection documentCollection = new DocumentCollection();
+
     public void Model()
     {
-        ArrayList<Document> documents = new ArrayList<Document>();
+
     }
 
     public Document getDocumentByIndex(Integer index)
     {
-        return new Document();
+        return getDocumentByIndex(index, false);
     }
+    public Document getDocumentByIndex(Integer index, Boolean textRequired)
+    {
+        return documentCollection.getDocumentByIndex(index,textRequired);
+    }
+    public DocumentCollection getDocumentCollection()
+    {
+        return documentCollection;
+    }
+
 }
