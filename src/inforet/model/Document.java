@@ -24,7 +24,7 @@ public class Document {
     private Long sizeOfDoc;
 
 
-    private String headline;
+    private String headline = "";
     private StringBuilder bodyTextBuilder = new StringBuilder();
     private Float weight = 0.0f;
 

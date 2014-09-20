@@ -87,6 +87,7 @@ public class DocumentCollection
         Boolean inText = false;
         do {
             String line = reader.readLine();
+            if(line == null)throw new IOException();
             totalLength += line.length()+1;
             if(line.length() > 0)
             {
@@ -122,12 +123,17 @@ public class DocumentCollection
                     {
                         inText = false;
                     }
-                } else if (inDoc && (inHeadline || inText)) {
-                    //fist split the line on spaces and dashes and slashes
-                    doc.appendLineToBody(line);
+                } else if (inDoc) {
+                    if(inText)
+                    {
+                        doc.appendLineToBody(line);
+                    }else if(inHeadline)
+                    {
+                        doc.setHeadline(line);
+                    }
                 }
             }
-        }while (inDoc == false);
+        }while (inDoc == true);
         doc.setSize(Long.valueOf(totalLength));
         return doc;
     }
