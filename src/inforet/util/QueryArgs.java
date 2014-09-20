@@ -107,7 +107,7 @@ public class QueryArgs {
         }
 
 
-        //Set the Files
+        //TODO: run a check to see if all required args are included
 
 
     }

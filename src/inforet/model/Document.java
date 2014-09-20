@@ -1,27 +1,36 @@
-package inforet.module;
+package inforet.model;
 
 /**
  * Created by johnuiterwyk on 20/09/2014.
  * The DocInfo class contains information that will be stored in the map
  * This includes the index, a the identifier string, and the wieght
  */
-public class DocInfo
+public class Document
 {
 
 
     private Integer index = -1;
+
+
     private String identifier = "";
+    private Long offset;
 
 
+    private String bodyText = "";
     private Float length = 0f;
     private Float weight = 0.0f;
 
-    public DocInfo(String identifier, Float length)
+    public Document()
     {
-        this.identifier = identifier;
-        this.length = length;
     }
 
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setLength(Float length) {
+        this.length = length;
+    }
     public Integer getIndex() {
         return index;
     }
@@ -45,5 +54,13 @@ public class DocInfo
     public String getIdentifier()
     {
         return identifier;
+    }
+
+    public String getBodyText() {
+        return bodyText;
+    }
+
+    public void setBodyText(String bodyText) {
+        this.bodyText = bodyText;
     }
 }
