@@ -28,6 +28,7 @@ RUN_ARGS=
 RUN_BATCH="run.cfg"
 
 GIT_URI="git@github.com:JohnUiterwyk/rmit-ir-a1.git"
+GIT_PULL_ARG=""
 GIT_FOLDER="$SOURCE_PATH"
 
 ## Public Status File
@@ -39,7 +40,7 @@ TMP_OUT="$USR_HOME/out.tmp"
 
 
 cd $WORKSPACE_PATH
-git pull "$GIT_URI" &> gitOutput.tmp
+git pull "$GIT_PULLARG" "$GIT_URI" &> gitOutput.tmp
 
 
 # Check if there were any diff to the file on the server
@@ -76,7 +77,5 @@ cat $TMP_OUT >> "$OUTPUT_FILE"
 
 # Cleanup
 rm -f gitOutput.tmp "$TMP_OUT"
-
-
 
 
