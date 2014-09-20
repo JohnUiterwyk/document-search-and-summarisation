@@ -16,6 +16,8 @@ public class QueryArgs {
     public String lexiconPath = "";
     public String invlistPath = "";
     public String mapPath     = "";
+
+    public Boolean stopListEnabled = false;
     public String stopListPath = "";
 
     public String queryString = null;
@@ -25,7 +27,21 @@ public class QueryArgs {
     private static int minArgs = 3;
 
     public QueryArgs() {
-        //Another Nice empty constructor :) Why aren't we just using statics. It's faster...
+        //Question:
+        // Another Nice empty constructor :) Why aren't we just using statics. It's faster...
+        //
+        // Answer:
+        // Static variables represent global state.
+        // They are hard to reason about, hard to test, and result in tight coupling
+        //
+        // If you use them freely, one day they will drive you insane
+        // as you waste days trying to solve an error that is being caused
+        // by code, that you didn't write, using your pretty little static classes
+        // and secretly changing their state.
+        //
+        // Its pretty much the opposite of OOP, see here my young padawan:
+        //
+        // http://stackoverflow.com/questions/7026507/why-are-static-variables-considered-evils
     }
 
     /***
@@ -75,6 +91,7 @@ public class QueryArgs {
             }else if(arg.equals("-s"))
             {
                 i++;
+                stopListEnabled = true;
                 stopListPath = args[i];
                 checkFile(stopListPath);
             }else
@@ -123,7 +140,8 @@ public class QueryArgs {
     private void usage(){
         StringBuilder sb = new StringBuilder();
         sb.append("Usage : \n");
-        sb.append("java ./search <lexicon> <invlist> <map> query_terms...");
+        sb.append("java search -BM25 -q <query-label> -n <num-results> -l <lexicon> -i <invlists> " +
+                "-m <map> [-s <stoplist>] <queryterm-1> [<queryterm-2> ...  <queryterm-N>]");
         System.out.println(sb.toString());
     }
 }

@@ -1,6 +1,7 @@
 package inforet.controller;
 
 import inforet.module.Posting;
+import inforet.module.QueryModule;
 import inforet.module.TermInfo;
 import inforet.module.TermNormalizer;
 import inforet.util.IndexFileManager;
@@ -36,44 +37,15 @@ public class QueryController {
             queryArgs.parseArgs(args);
         } catch (FileNotFoundException e) {
             //e.printStackTrace();
-            System.err.println("Invalid Arguments received. Please check your arguments passed to ./query");
+            System.err.println("Invalid Arguments received. Please check your arguments passed to ./search");
             return;
         }
 
-        //Load the doc id map
-        MapFileManager mapFileManager = new MapFileManager();
-        List<String> docIds = mapFileManager.loadDocIdMap(queryArgs.mapPath);
 
-        IndexFileManager indexFileManager = new IndexFileManager();
-        Map<String,TermInfo> lexicon = indexFileManager.loadLexicon(queryArgs.lexiconPath);
 
-        // Run the Term Normaliser
-        TermNormalizer normalizer = new TermNormalizer();
-        String[] queryTerms = normalizer.stringToTerms(queryArgs.queryString);
-
+        QueryModule queryModule = new QueryModule(queryArgs);
         //Do the query
-        for ( String term : queryTerms ){
-            term = normalizer.transform(term);
 
-            System.out.println("Term: "+term);
-            TermInfo termInfo = lexicon.get(term);
-            if (termInfo != null) {
-                List<Posting> postings = indexFileManager.getPostings(termInfo,queryArgs.invlistPath);
-                //output info
-                System.out.println("Doc Freq: "+termInfo.getDocumentFrequency());
-                int totalOccurances = 0;
-                for(Posting posting:postings)
-                {
-                    totalOccurances+=posting.withinDocFrequency;
-                    System.out.println("Doc: "+docIds.get(posting.docId)+" "+posting.withinDocFrequency);
-                }
-                System.out.println("Total occurances: "+totalOccurances);
-            }else
-            {
-
-                System.out.println("Doc Freq: 0");
-            }
-        }
 
     }
 }
