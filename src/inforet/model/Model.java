@@ -27,4 +27,6 @@ public class Model
         return documentCollection;
     }
 
+    //TODO: integrate indexing module into model
+
 }
