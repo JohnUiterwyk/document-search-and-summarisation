@@ -5,7 +5,7 @@ mkdir -p bin
 javac -d bin -sourcepath src src/inforet/index.java
 if [ -d /home/sl1 ]
   then
-    DOC_COLLECTION=/KDrive/SEH/SCSIT/Students/Courses/ISYS1078/2014/a2/latimes
+    DOC_COLLECTION=~/temp/latimes
 fi
 
 java -cp bin inforet.index -s $STOP_LIST $DOC_COLLECTION
