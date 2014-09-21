@@ -82,11 +82,9 @@ public class IndexAppController {
             }
         }
 
+        //save the map file
         documentCollection.saveMapToFile();
 
-        //save the map file
-        //MapFileManager mapFileManager = new MapFileManager();
-        //mapFileManager.saveDocIdMap(parsingModule.getDocIdMap());
 
         //save the lexicon and inverted list
         IndexFileManager indexFileManager = new IndexFileManager();

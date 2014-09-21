@@ -14,19 +14,19 @@ import java.util.List;
 public class Document {
 
 
-    private Integer index = -1;
+    private int index = -1;
     private String identifier;
 
-    private Long fileOffset;
+    private long fileOffset;
 
 
 
-    private Long sizeOfDoc;
+    private long rawFullLength;
 
 
     private String headline = "";
     private StringBuilder bodyTextBuilder = new StringBuilder();
-    private Float weight = 0.0f;
+    private float weight = 0f;
 
     public Document() {
     }
@@ -38,27 +38,27 @@ public class Document {
         this.identifier = identifier;
     }
 
-    public Long getSize() {
-        return sizeOfDoc;
+    public long getRawLength() {
+        return rawFullLength;
     }
 
-    public void setSize(Long size) {
-        this.sizeOfDoc = size;
+    public void setRawLength(long length) {
+        this.rawFullLength = length;
     }
 
-    public Integer getIndex() {
+    public int getIndex() {
         return index;
     }
 
-    public void setIndex(Integer index) {
+    public void setIndex(int index) {
         this.index = index;
     }
 
-    public Float getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(Float weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
@@ -71,11 +71,11 @@ public class Document {
     }
 
 
-    public Long getFileOffset() {
+    public long getFileOffset() {
         return fileOffset;
     }
 
-    public void setFileOffset(Long fileOffset) {
+    public void setFileOffset(long fileOffset) {
         this.fileOffset = fileOffset;
     }
 

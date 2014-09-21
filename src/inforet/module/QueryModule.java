@@ -13,6 +13,10 @@ import java.util.Map;
 /**
  * Created by johnuiterwyk on 20/09/2014.
  * This class will contain functionality regarding processing a query, and returning an arraylist of results
+ *
+ * TODO: rewrite this to to be less coupled.
+ * TODO: Doc collection should be passed by reference into this class (dependency injection)
+ *
  */
 public class QueryModule
 {

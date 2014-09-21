@@ -1,10 +1,8 @@
 package inforet.model;
 
-import inforet.module.TermNormalizer;
 import inforet.util.LineReader;
 
 import java.io.*;
-import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -55,8 +53,9 @@ public class DocumentCollection
         LineReader lineReader = new LineReader(bufferedReader);
 
 
-        Long position = 0l;
-        Long totalLength = 0l;
+        long position = 0l;
+        float collectionLength = 0f;
+        float averageDocumentLength = 0f;
         Boolean endOfFile = false;
         while(endOfFile == false)
         {
@@ -67,8 +66,8 @@ public class DocumentCollection
                 document.setFileOffset(position);
 
                 documents.put(document.getIndex(), document);
-
-                position += document.getSize();
+                collectionLength += document.getBodyTextLength();
+                position += document.getRawLength();
             }catch (IOException ex)
             {
                 endOfFile = true;
@@ -79,14 +78,33 @@ public class DocumentCollection
         {
             fileInputStream.close();
         }catch (IOException ex){}
+        averageDocumentLength = collectionLength / documents.size();
+
+
+
+        //update all documents with their weight
+        for (Map.Entry<Integer, Document> entry : documents.entrySet())
+        {
+            Document document = entry.getValue();
+            document.setWeight(this.calcWeight(document.getBodyTextLength(),averageDocumentLength));
+            //calculate document weight
+        }
     }
+    public float calcWeight(int docLength, float averageLength)
+    {
+        float k1 = 1.2f;
+        float b = 0.75f;
+        return Math.round(k1 * ((1-b)+(b*docLength)/averageLength));
+
+    }
+
     public Document parseNextDocument(LineReader reader) throws IOException
     {
         return parseNextDocument(reader,new Document());
     }
     public Document parseNextDocument(LineReader reader, Document doc) throws IOException
     {
-        int totalLength = 0;
+        long totalLength = 0;
         Boolean inDoc = false;
         Boolean inHeadline = false;
         Boolean inText = false;
@@ -139,7 +157,7 @@ public class DocumentCollection
                 }
             }
         }while (inDoc == true);
-        doc.setSize(Long.valueOf(totalLength));
+        doc.setRawLength(totalLength);
         return doc;
     }
 
@@ -174,7 +192,7 @@ public class DocumentCollection
             doc.setIdentifier(lineData[1]);
             doc.setWeight(Float.valueOf(lineData[2]));
             doc.setFileOffset(Long.valueOf(lineData[3]));
-            documents.put(doc.getIndex(),doc);
+            documents.put(Integer.valueOf(doc.getIndex()),doc);
             try
             {
                 line = reader.readLine();
