@@ -31,11 +31,12 @@ public class DocSummary {
 
 
     public String getNonQueryBiasedSummary ( Document doc ){
-
+        String summary;
+        return summary;
     }
 
     public String getQueryBiasedSummary ( Document doc, List<String> queryTerms ){
-
+        return null;
     }
 
 }
