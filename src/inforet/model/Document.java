@@ -5,6 +5,7 @@ import inforet.module.TermNormalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by johnuiterwyk on 20/09/2014.
@@ -86,6 +87,11 @@ public class Document {
     public void appendLineToBody(String text) {
         this.bodyTextBuilder.append(text);
         this.bodyTextBuilder.append("\n");
+    }
+
+    public Map<String, Integer> getTermFrequency()
+    {
+
     }
 
     public List<String> getListOfWords() {
