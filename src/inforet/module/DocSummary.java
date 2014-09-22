@@ -3,12 +3,14 @@ package inforet.module;
 import inforet.model.Document;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Daniel on 21/09/2014.
  */
 public class DocSummary {
 
+    private int summaryLen = 1; //Sentence
     public DocSummary() {
     }
 
@@ -33,7 +35,7 @@ public class DocSummary {
      * @param docs - An ArrayList of Documents to be summarised
      * @return the same arraylist of documents
      */
-    public ArrayList<Document> getSummaries(ArrayList<Document> docs){
+    public List<Document> getSummaries(List<Document> docs){
 
         return docs;
     }
@@ -42,5 +44,12 @@ public class DocSummary {
         return doc;
     }
 
+    public String getNonQueryBiasedSummary ( Document doc ){
+
+    }
+
+    public String getQueryBiasedSummary ( Document doc, List<String> queryTerms ){
+
+    }
 
 }

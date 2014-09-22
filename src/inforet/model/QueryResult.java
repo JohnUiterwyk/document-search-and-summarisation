@@ -1,4 +1,4 @@
-package inforet.module;
+package inforet.model;
 
 import inforet.model.Document;
 
@@ -11,6 +11,8 @@ public class QueryResult
     private Integer docIndex = -1;
     private Integer rank = 0;
     private Float similarityScore = 0.0f;
-    private String summaryA = "";
-    private String summaryB = "";
+    private String summaryQB  = "";
+    private String summaryNQB = "";
+
+    private Document doc = null;
 }
