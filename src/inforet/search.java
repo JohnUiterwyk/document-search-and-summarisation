@@ -10,11 +10,10 @@ import inforet.controller.QueryController;
 
 public class search {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         long startTime = System.currentTimeMillis();
-
         new QueryController(args);
-
         long endTime = System.currentTimeMillis();
         System.out.println("Running time: " + (endTime - startTime) + " ms");
 

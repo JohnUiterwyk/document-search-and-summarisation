@@ -19,10 +19,7 @@ public class Document {
 
     private long fileOffset;
 
-
-
     private long rawFullLength;
-
 
     private String headline = "";
     private StringBuilder bodyTextBuilder = new StringBuilder();

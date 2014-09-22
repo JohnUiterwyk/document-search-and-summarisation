@@ -118,6 +118,7 @@ public class DocumentCollection
                 if (line.charAt(0) == '<')
                 {
                     //fist split the line on spaces and dashes
+                    //TODO: parse <p> tags as double newlines
                     if (line.startsWith("<DOC>"))
                     {
                         inDoc = true;
