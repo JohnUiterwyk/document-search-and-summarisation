@@ -2,8 +2,8 @@ package inforet.module;
 
 import inforet.model.Document;
 import inforet.model.DocumentCollection;
+import inforet.model.QueryResult;
 import inforet.util.IndexFileManager;
-import inforet.util.MapFileManager;
 import inforet.util.QueryArgs;
 
 import java.util.ArrayList;

@@ -3,12 +3,14 @@ package inforet.module;
 import inforet.model.Document;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Daniel on 21/09/2014.
  */
 public class DocSummary {
 
+    private int summaryLen = 1; //Sentence
     public DocSummary() {
     }
 
@@ -27,20 +29,13 @@ public class DocSummary {
      *  b) Query Biased =
      */
 
-    /**
-     * In : Document Objects with text to perform summary
-     * Out: A summary will be appended to the Document Object given.
-     * @param docs - An ArrayList of Documents to be summarised
-     * @return the same arraylist of documents
-     */
-    public ArrayList<Document> getSummaries(ArrayList<Document> docs){
 
-        return docs;
-    }
-    public Document getSummary(Document doc){
+    public String getNonQueryBiasedSummary ( Document doc ){
 
-        return doc;
     }
 
+    public String getQueryBiasedSummary ( Document doc, List<String> queryTerms ){
+
+    }
 
 }
