@@ -138,7 +138,7 @@ public class DocumentCollection
             if(line == null)throw new IOException();
 
             //add the line length and +1 for the newline to the total.
-            totalLength += line.getBytes("US-ASCII").length;
+            totalLength += line.getBytes("US-ASCII").length +newLineLength;
             if(line.length() > 0)
             {
                 //and check if the word is tag
