@@ -10,7 +10,9 @@ import inforet.util.IndexFileManager;
 import inforet.util.MapFileManager;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by johnuiterwyk on 11/08/2014.
@@ -63,8 +65,8 @@ public class IndexAppController {
         documentCollection.parseCollection();
 
         //loop through documents getting word lists
-        Collection<Document> documents = documentCollection.getDocuments();
-        for(Document document:documents)
+        HashMap<Integer,Document> documents = documentCollection.getDocuments();
+        for(Document document:documents.values())
         {
             List<String> words = document.getListOfWords();
             //loop through word list

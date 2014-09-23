@@ -23,19 +23,35 @@ public class DocumentCollection
         this.pathToCollection = pathToCollection;
     }
 
-    public Collection<Document> getDocuments()
+    public HashMap<Integer,Document> getDocuments()
     {
-        return documents.values();
+        return documents;
     }
     public Document getDocumentByIndex(Integer index, Boolean textRequired)
     {
-        Document result = documents.get(index);
+        Document doc = documents.get(index);
         //first look for the document in the list
-        if(result.getHeadline() == "" && textRequired)
+        if(doc.getHeadline() == "" && textRequired)
         {
-            //setup RandomAccessReader and run parseNextDocument
+            try
+            {
+            // Open the file for reading.
+            RandomAccessFile randomFile = new RandomAccessFile(pathToCollection, "r");
+            // Create wrapper for doc parser
+            LineReader reader = new LineReader(randomFile);
+
+            //seek to the location
+            randomFile.seek(doc.getFileOffset());
+            //parse the next document
+            parseNextDocument(reader,doc);
+            //close the file
+            randomFile.close();
+            }catch (IOException ex) {
+                System.out.println("IOException: "+ex.getMessage());
+            }
+            System.out.println("   ***Done with reading from a random access binary file.");
         }
-        return result;
+        return doc;
     }
 
     public void parseCollection()
@@ -98,6 +114,12 @@ public class DocumentCollection
 
     }
 
+    /***
+     *
+     * @param reader
+     * @return
+     * @throws IOException
+     */
     public Document parseNextDocument(LineReader reader) throws IOException
     {
         return parseNextDocument(reader,new Document());
@@ -108,10 +130,15 @@ public class DocumentCollection
         Boolean inDoc = false;
         Boolean inHeadline = false;
         Boolean inText = false;
+        String newLine = "\n";
+        int newLineLength = newLine.getBytes("US-ASCII").length;
+
         do {
             String line = reader.readLine();
             if(line == null)throw new IOException();
-            totalLength += line.length()+1;
+
+            //add the line length and +1 for the newline to the total.
+            totalLength += line.getBytes("US-ASCII").length;
             if(line.length() > 0)
             {
                 //and check if the word is tag

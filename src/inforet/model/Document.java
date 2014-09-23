@@ -2,10 +2,7 @@ package inforet.model;
 
 import inforet.module.TermNormalizer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by johnuiterwyk on 20/09/2014.
@@ -17,14 +14,12 @@ public class Document {
 
     private int index = -1;
     private String identifier;
-
     private long fileOffset;
-
     private long rawFullLength;
-
     private String headline = "";
     private StringBuilder bodyTextBuilder = new StringBuilder();
     private float weight = 0f;
+    private Map<String,Integer> termFrequencies;
 
     public Document() {
     }
@@ -91,7 +86,26 @@ public class Document {
 
     public Map<String, Integer> getTermFrequency()
     {
-
+        //if the term frequency map doesn't exist, create it
+        if(termFrequencies == null)
+        {
+            termFrequencies = new HashMap<String, Integer>();
+            List<String> words = this.getListOfWords();
+            for(String word:words)
+            {
+                //look up the docId
+                Integer termFrequency = termFrequencies.get(word);
+                //if a value was not found, create a value
+                if(termFrequency == null)
+                {
+                    termFrequency = 0;
+                }
+                //increment the within doc freq and put it back in the hashmap
+                termFrequency++;
+                termFrequencies.put(word,termFrequency);
+            }
+        }
+        return termFrequencies;
     }
 
     public List<String> getListOfWords() {

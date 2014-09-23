@@ -31,7 +31,7 @@ public class DocSummary {
 
 
     public String getNonQueryBiasedSummary ( Document doc ){
-        String summary;
+        String summary = null;
         return summary;
     }
 
