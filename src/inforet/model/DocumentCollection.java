@@ -131,14 +131,16 @@ public class DocumentCollection
         Boolean inHeadline = false;
         Boolean inText = false;
         String newLine = "\n";
-        int newLineLength = newLine.getBytes("US-ASCII").length;
+        String characterEncoding = "US-ASCII";
+
+        int newLineLength = newLine.getBytes(characterEncoding).length;
 
         do {
             String line = reader.readLine();
             if(line == null)throw new IOException();
 
             //add the line length and +1 for the newline to the total.
-            totalLength += line.getBytes("US-ASCII").length +newLineLength;
+            totalLength += line.getBytes(characterEncoding).length +newLineLength;
             if(line.length() > 0)
             {
                 //and check if the word is tag

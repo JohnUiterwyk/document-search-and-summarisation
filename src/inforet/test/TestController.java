@@ -20,7 +20,7 @@ public class TestController {
         DocumentCollection docCollection = new DocumentCollection();
         docCollection.setPathToCollection("data/latimes_med.txt");
         docCollection.loadFromMapFile("map");
-        Document doc = docCollection.getDocumentByIndex(1,true);
+        Document doc = docCollection.getDocumentByIndex(7,true);
         System.out.print(doc.getBodyText());
     }
 }
