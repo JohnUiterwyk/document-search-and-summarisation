@@ -37,13 +37,11 @@ public class DocumentCollection
             {
             // Open the file for reading.
             RandomAccessFile randomFile = new RandomAccessFile(pathToCollection, "r");
-            // Create wrapper for doc parser
-            LineReader reader = new LineReader(randomFile);
 
             //seek to the location
             randomFile.seek(doc.getFileOffset());
             //parse the next document
-            parseNextDocument(reader,doc);
+            parseNextDocument(randomFile,doc);
             //close the file
             randomFile.close();
             }catch (IOException ex) {
@@ -56,20 +54,16 @@ public class DocumentCollection
 
     public void parseCollection()
     {
-        BufferedReader bufferedReader = null;
-        FileInputStream fileInputStream = null;
+        RandomAccessFile randomFile = null;
         try
         {
-             fileInputStream = new FileInputStream(new File(pathToCollection));
+            randomFile = new RandomAccessFile(pathToCollection, "r");
         }catch (FileNotFoundException ex)
         {
             System.err.println("IO Error reading "+ pathToCollection);
         }
-        bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-        LineReader lineReader = new LineReader(bufferedReader);
 
 
-        long position = 0l;
         float collectionLength = 0f;
         float averageDocumentLength = 0f;
         Boolean endOfFile = false;
@@ -77,13 +71,13 @@ public class DocumentCollection
         {
             try
             {
-                Document document = parseNextDocument(lineReader);
+                Document document = new Document();
+                document.setFileOffset(randomFile.getFilePointer());
                 document.setIndex(documents.size());
-                document.setFileOffset(position);
+                parseNextDocument(randomFile,document);
 
                 documents.put(document.getIndex(), document);
                 collectionLength += document.getBodyTextLength();
-                position += document.getRawLength();
             }catch (IOException ex)
             {
                 endOfFile = true;
@@ -92,7 +86,7 @@ public class DocumentCollection
         }
         try
         {
-            fileInputStream.close();
+            randomFile.close();
         }catch (IOException ex){}
         averageDocumentLength = collectionLength / documents.size();
 
@@ -116,15 +110,15 @@ public class DocumentCollection
 
     /***
      *
-     * @param reader
+     * @param randomFile
      * @return
      * @throws IOException
      */
-    public Document parseNextDocument(LineReader reader) throws IOException
+    public Document parseNextDocument(RandomAccessFile randomFile) throws IOException
     {
-        return parseNextDocument(reader,new Document());
+        return parseNextDocument(randomFile,new Document());
     }
-    public Document parseNextDocument(LineReader reader, Document doc) throws IOException
+    public Document parseNextDocument(RandomAccessFile randomFile, Document doc) throws IOException
     {
         long totalLength = 0;
         Boolean inDoc = false;
@@ -134,7 +128,7 @@ public class DocumentCollection
         int newLineLength = newLine.getBytes("US-ASCII").length;
 
         do {
-            String line = reader.readLine();
+            String line = randomFile.readLine();
             if(line == null)throw new IOException();
 
             //add the line length and +1 for the newline to the total.
