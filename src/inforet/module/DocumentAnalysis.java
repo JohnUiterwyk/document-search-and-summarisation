@@ -24,7 +24,7 @@ public class DocumentAnalysis {
     }
 
 
-    public static DocumentAnalysis doAnalysis (Document doc){
+    public DocumentAnalysis doAnalysis (Document doc){
         DocumentAnalysis docAnalysis = new DocumentAnalysis();
 
         //Lets begin by ranking all the words used in descending order of use count.

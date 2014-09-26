@@ -16,4 +16,13 @@ public class TermNormalizer {
     {
         return notNumAndLetters.matcher(str.toLowerCase().trim()).replaceAll(" ").split("[/\\s\\-\\n]");
     }
+    public static String[] transformedStringToTerms(String str)
+    {
+        String[] terms = TermNormalizer.stringToTerms(str);
+        for(int i=0;i<terms.length;i++)
+        {
+            terms[i] = transform(terms[i]);
+        }
+        return terms;
+    }
 }

@@ -1,14 +1,11 @@
 package inforet.module;
 
-import inforet.model.Document;
-import inforet.model.DocumentCollection;
-import inforet.model.QueryResult;
-import inforet.util.IndexFileManager;
-import inforet.util.QueryArgs;
+import inforet.model.*;
+import inforet.util.Similarity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by johnuiterwyk on 20/09/2014.
@@ -20,45 +17,41 @@ import java.util.Map;
  */
 public class QueryModule
 {
-    private ArrayList<QueryResult> results = new ArrayList<QueryResult>();
+    private HashMap<Integer, QueryResult> results = new HashMap<Integer, QueryResult>();
+    private ArrayList<TermInfo> terms = new ArrayList<TermInfo>();
 
-    public QueryModule(QueryArgs queryArgs)
+    public QueryModule(String[] queryTerms, Model model )
     {
-        //Load the doc id map
 
-        DocumentCollection documents = new DocumentCollection();
-        documents.loadFromMapFile(queryArgs.mapPath);
+        int docCount = model.getDocumentCollection().getDocuments().size();
 
-        IndexFileManager indexFileManager = new IndexFileManager();
-        Map<String,TermInfo> lexicon = indexFileManager.loadLexicon(queryArgs.lexiconPath);
+        for ( String term : queryTerms )
+        {
 
-        // Run the Term Normaliser
-        TermNormalizer normalizer = new TermNormalizer();
-        String[] queryTerms = normalizer.stringToTerms(queryArgs.queryString);
-
-        for ( String term : queryTerms ){
-            term = normalizer.transform(term);
-
-            System.out.println("Term: "+term);
-            TermInfo termInfo = lexicon.get(term);
+            TermInfo termInfo = model.getLexicon().get(term);
+            terms.add(termInfo);
             if (termInfo != null) {
-                List<Posting> postings = indexFileManager.getPostings(termInfo,queryArgs.invlistPath);
+                List<Posting> postings = model.getInvertedList().getPostings(termInfo);
                 //output info
-                System.out.println("Doc Freq: "+termInfo.getDocumentFrequency());
-                int totalOccurances = 0;
                 for(Posting posting:postings)
                 {
-                    totalOccurances+=posting.withinDocFrequency;
-                    Document doc = documents.getDocumentByIndex(posting.docId, false);
-                    System.out.println("Doc: "+doc.getIdentifier()+" "+posting.withinDocFrequency);
+                    QueryResult result = results.get(posting.docIndex);
+                    if(result == null) result = new QueryResult();
+                    result.setDoc(model.getDocumentCollection().getDocumentByIndex(posting.docIndex, false));
+                    float score = Similarity.GetBm25Score(term,docCount,posting.withinDocFrequency,termInfo.getDocumentFrequency(),result.getDoc().getWeight(),1.2f,.75f);
+                    result.setSimilarityScore(result.getSimilarityScore()+score);
                 }
-                System.out.println("Total occurances: "+totalOccurances);
-            }else
-            {
-
-                System.out.println("Doc Freq: 0");
             }
         }
+        //now push it into a min heap
+        for(QueryResult result:results.values())
+        {
+            //insert into min-heap
+        }
+    }
+
+    public HashMap<Integer, QueryResult> getResults() {
+        return results;
     }
 
 

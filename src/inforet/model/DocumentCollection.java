@@ -14,6 +14,7 @@ public class DocumentCollection
 
     private String pathToCollection;
     private HashMap<Integer,Document> documents = new HashMap<Integer,Document>();
+    private int docCount = 0;
 
     public DocumentCollection()
     {
@@ -69,6 +70,8 @@ public class DocumentCollection
         LineReader lineReader = new LineReader(bufferedReader);
 
 
+
+        docCount= 0;
         long position = 0l;
         float collectionLength = 0f;
         float averageDocumentLength = 0f;
@@ -80,7 +83,7 @@ public class DocumentCollection
                 Document document = parseNextDocument(lineReader);
                 document.setIndex(documents.size());
                 document.setFileOffset(position);
-
+                docCount++;
                 documents.put(document.getIndex(), document);
                 collectionLength += document.getBodyTextLength();
                 position += document.getRawLength();
@@ -195,7 +198,6 @@ public class DocumentCollection
     {
         //empty the hashmap first
         documents.clear();
-
         FileReader fileReader = null;
         try
         {

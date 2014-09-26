@@ -16,6 +16,7 @@ public class QueryArgs {
     public String lexiconPath = "";
     public String invlistPath = "";
     public String mapPath     = "";
+    public String collectionPath = "";
 
     public Boolean stopListEnabled = false;
     public String stopListPath = "";
@@ -94,6 +95,11 @@ public class QueryArgs {
                 stopListEnabled = true;
                 stopListPath = args[i];
                 checkFile(stopListPath);
+            }else if(arg.equals("-d"))
+            {
+                i++;
+                collectionPath = args[i];
+                checkFile(collectionPath);
             }else
             {
                 StringBuilder sb = new StringBuilder();

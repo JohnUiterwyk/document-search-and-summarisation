@@ -8,6 +8,9 @@ import java.util.*;
  * Created by johnuiterwyk on 20/09/2014.
  * The DocInfo class contains information that will be stored in the map
  * This includes the index, a the identifier string, and the wieght
+ *
+ * Occurance of a substring in a string:
+ * http://stackoverflow.com/questions/767759/occurrences-of-substring-in-a-string
  */
 public class Document {
 
@@ -93,7 +96,7 @@ public class Document {
             List<String> words = this.getListOfWords();
             for(String word:words)
             {
-                //look up the docId
+                //look up the docIndex
                 Integer termFrequency = termFrequencies.get(word);
                 //if a value was not found, create a value
                 if(termFrequency == null)
@@ -106,6 +109,24 @@ public class Document {
             }
         }
         return termFrequencies;
+    }
+
+    public int getFrequencyOfTerm(String term)
+    {
+        int count = 0;
+        int currentIndex = 0;
+        String doc = this.getBodyText();
+        while(currentIndex != -1)
+        {
+            currentIndex = doc.indexOf(term,currentIndex);
+            if( currentIndex != -1 )
+            {
+                count++;
+                currentIndex += term.length();
+            }
+
+        }
+        return count;
     }
 
     public List<String> getListOfWords() {

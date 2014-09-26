@@ -1,6 +1,6 @@
 package inforet.util;
 
-import inforet.module.Posting;
+import inforet.model.Posting;
 import inforet.module.TermInfo;
 
 import java.io.*;
@@ -228,7 +228,7 @@ public class IndexFileManager {
             for (int i = 0; i < termInfo.getDocumentFrequency(); i++)
             {
                 Posting posting = new Posting();
-                posting.docId = inputStream.readInt();
+                posting.docIndex = inputStream.readInt();
                 posting.withinDocFrequency = inputStream.readInt();
                 postings.add(posting);
             }

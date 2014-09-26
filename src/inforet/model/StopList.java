@@ -1,4 +1,4 @@
-package inforet.module;
+package inforet.model;
 
 import inforet.util.IndexArgs;
 
@@ -13,14 +13,14 @@ import java.util.Set;
 /**
  * Created by Daniel on 12/08/2014.
  */
-public class StopListModule {
+public class StopList {
 
     // Load StopList on First Call
     Set<String> stopList = null;
     int hashSetSize = 630; // This is calculated from the number of lines in the stoplist / 0.75
 
     // Model ======================================================
-    public StopListModule() {
+    public StopList() {
     }
 
     private  Boolean enabled = false;

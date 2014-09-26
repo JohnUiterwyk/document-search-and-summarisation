@@ -8,11 +8,57 @@ import inforet.model.Document;
 public class QueryResult
 {
     private String queryLabel = "";
-    private Integer docIndex = -1;
-    private Integer rank = 0;
-    private Float similarityScore = 0.0f;
+    private int rank = 0;
+    private float similarityScore = 0.0f;
     private String summaryQB  = "";
     private String summaryNQB = "";
-
     private Document doc = null;
+
+    public String getQueryLabel() {
+        return queryLabel;
+    }
+
+    public void setQueryLabel(String queryLabel) {
+        this.queryLabel = queryLabel;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public float getSimilarityScore() {
+        return similarityScore;
+    }
+
+    public void setSimilarityScore(float similarityScore) {
+        this.similarityScore = similarityScore;
+    }
+
+    public String getSummaryQB() {
+        return summaryQB;
+    }
+
+    public void setSummaryQB(String summaryQB) {
+        this.summaryQB = summaryQB;
+    }
+
+    public String getSummaryNQB() {
+        return summaryNQB;
+    }
+
+    public void setSummaryNQB(String summaryNQB) {
+        this.summaryNQB = summaryNQB;
+    }
+
+    public Document getDoc() {
+        return doc;
+    }
+
+    public void setDoc(Document doc) {
+        this.doc = doc;
+    }
 }

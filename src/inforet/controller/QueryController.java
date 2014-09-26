@@ -1,17 +1,14 @@
 package inforet.controller;
 
-import inforet.module.Posting;
-import inforet.module.QueryModule;
-import inforet.module.TermInfo;
-import inforet.module.TermNormalizer;
+import inforet.model.DocumentCollection;
+import inforet.model.Model;
+import inforet.model.StopList;
+import inforet.module.*;
 import inforet.util.IndexFileManager;
-import inforet.util.MapFileManager;
 import inforet.util.QueryArgs;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 /**
  * Created by Daniel on 16/08/2014.
@@ -41,9 +38,21 @@ public class QueryController {
             return;
         }
 
+        // Run the Term Normaliser
+        TermNormalizer normalizer = new TermNormalizer();
+        String[] queryTerms = normalizer.transformedStringToTerms(queryArgs.queryString);
 
+        Model model = new Model();
+        model.loadCollectionFromMap(queryArgs.mapPath);
+        model.loadLexicon(queryArgs.lexiconPath);
+        if(queryArgs.stopListEnabled)
+        {
+            model.loadStopList(queryArgs.stopListPath);
+        }
 
-        QueryModule queryModule = new QueryModule(queryArgs);
+        //fetch the
+
+        QueryModule queryModule = new QueryModule(queryTerms, model);
         //Do the query
 
 

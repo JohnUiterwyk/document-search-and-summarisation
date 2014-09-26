@@ -12,15 +12,19 @@ import java.util.Map;
 public class Lexicon {
 
     private static String LexiconFileName = "lexicon";
+    private  Map<String,TermInfo> lexicon = new HashMap<String, TermInfo>();
 
+    public TermInfo get(String term)
+    {
+        return lexicon.get(term);
+    }
     /**
      * load a lexicon file
      * @param pathToLexicon the path to the lexicon file to load
      * @return a hash map of term, TermInfo
      */
-    public Map<String,TermInfo> loadLexicon(String pathToLexicon)
+    public void loadLexicon(String pathToLexicon)
     {
-        Map<String,TermInfo> lexicon = new HashMap<String, TermInfo>();
 
         //load the file
         FileReader fileReader = null;
@@ -61,8 +65,6 @@ public class Lexicon {
                 line= null;
             }
         }
-
-        return lexicon;
     }
 
 
@@ -71,7 +73,7 @@ public class Lexicon {
      * @param terms
      */
 
-    private void saveLexicon(Map<String, TermInfo> terms)
+    public void saveLexicon(Map<String, TermInfo> terms)
     {
         String lineSeparator = System.getProperty("line.separator");
         StringBuilder stringBuilder = new StringBuilder();

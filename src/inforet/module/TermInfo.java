@@ -36,7 +36,7 @@ public class TermInfo {
             postings  = new HashMap<Integer, Integer>(postingHashMapSize);
         }
 
-        //look up the docId
+        //look up the docIndex
         Integer withinDocFreq = postings.get(docId);
         //if a value was not found, create a value
         if(withinDocFreq == null)

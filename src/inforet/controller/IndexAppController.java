@@ -1,18 +1,13 @@
 package inforet.controller;
 
-import inforet.model.Document;
-import inforet.model.DocumentCollection;
+import inforet.model.*;
 import inforet.module.IndexingModule;
-import inforet.module.StopListModule;
 import inforet.util.IndexArgs;
 import inforet.module.ParsingModule;
 import inforet.util.IndexFileManager;
-import inforet.util.MapFileManager;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by johnuiterwyk on 11/08/2014.
@@ -23,7 +18,7 @@ import java.util.Map;
 public class IndexAppController {
 
     private ParsingModule parsingModule     = new ParsingModule();
-    private StopListModule stopListModule = new StopListModule();
+    private StopList stopList = new StopList();
     private IndexingModule indexingModule   = new IndexingModule();
     private IndexArgs indexArgs             = new IndexArgs();
 
@@ -54,7 +49,7 @@ public class IndexAppController {
 
         if(indexArgs.useStopWords)
         {
-            stopListModule.initStopList(indexArgs.pathToStopWordsFile);
+            stopList.initStopList(indexArgs.pathToStopWordsFile);
         }
 
 
@@ -78,7 +73,7 @@ public class IndexAppController {
                 }
 
                 //Ignore entry if it is a stop word.
-                if(!stopListModule.isEnabled() || !stopListModule.contains(word)){
+                if(!stopList.isEnabled() || !stopList.contains(word)){
                     indexingModule.addTerm(word,document.getIndex());
                 }
             }
@@ -89,8 +84,12 @@ public class IndexAppController {
 
 
         //save the lexicon and inverted list
-        IndexFileManager indexFileManager = new IndexFileManager();
-        indexFileManager.saveToDisk(indexingModule.getTerms());
+        InvertedList invertedList = new InvertedList();
+        invertedList.saveInvertedList(indexingModule.getTerms());
+
+        //save the lexicon and inverted list
+        Lexicon lexicon = new Lexicon();
+        lexicon.saveLexicon(indexingModule.getTerms());
 
         /**
         System.out.println("Term count: "+indexingModule.getTermCount());
