@@ -31,16 +31,30 @@ public class DocSummary {
 
 
     public String getNonQueryBiasedSummary ( Document doc ){
-        String summary = null;
+        //Find out what the document is about
+        DocumentAnalysis docMeta = DocumentAnalysis.doAnalysis(doc);
+        return luhnSummary(docMeta);
+    }
 
+    public String getQueryBiasedSummary ( Document doc, List<String> queryTerms ){
+        //Find out what the document is about
+        DocumentAnalysis docMeta = DocumentAnalysis.doAnalysis(doc);
 
+        return null;
+    }
+
+    private String luhnSummary(DocumentAnalysis docMeta){
+        String summary = "";
+        // Identify top 3 terms used in the document
+        // find the sentence with the highest weighted sum of the keywords found.
+        // retrieve the sentence and return.
+
+        docMeta.getWordRank().get(x);
 
         return summary;
     }
 
-    public String getQueryBiasedSummary ( Document doc, List<String> queryTerms ){
+    private Double rankValue(int )
 
-        return null;
-    }
 
 }
