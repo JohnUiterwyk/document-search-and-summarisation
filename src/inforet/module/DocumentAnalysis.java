@@ -68,6 +68,7 @@ public class DocumentAnalysis {
         //Iterate through the text until the end is reached
         for (char ch = sci.first(); ch != CharacterIterator.DONE; ch = sci.next()){
 
+            //TODO Filter
 
 
         }
