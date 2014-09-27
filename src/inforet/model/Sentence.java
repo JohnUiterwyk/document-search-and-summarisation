@@ -1,6 +1,5 @@
 package inforet.model;
 
-import inforet.module.StopListModule;
 
 import java.util.*;
 

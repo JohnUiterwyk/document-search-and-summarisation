@@ -49,9 +49,9 @@ public class DocSummary {
         // Identify top 3 terms used in the document
         // find the sentence with the highest weighted sum of the keywords found.
         // retrieve the sentence and return.
-        for ( ) //TOp X terms
-
-        docMeta.getWordRank().get(x);
+//        for ( ) //TOp X terms
+//
+//        docMeta.getWordRank().get(x);
 
         return summary;
     }
