@@ -1,6 +1,7 @@
 package inforet.module;
 
 import inforet.model.Document;
+import inforet.model.Sentence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,17 @@ public class DocSummary {
         return summary;
     }
 
-    private Double rankValue(int )
+    private double sentenceValue(Sentence sentence, String[] keywords ){
+        int keyValue = 0;
+        double value = 0;
+
+        //Weighted Sum of Keywords
+        for ( int i = 0; i < keywords.length; i++ ){
+            keyValue += ((sentence.getWordFreqRanking().indexOf(keywords[i]) ^ 2 ) / sentence.getWordCount());
+        }
+
+        return keyValue;
+    }
 
 
 }

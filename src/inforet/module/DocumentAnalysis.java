@@ -90,7 +90,7 @@ public class DocumentAnalysis {
 
         //Iterate through the text until the end is reached
         for (char ch = sci.first(); ch != CharacterIterator.DONE; ch = sci.next()){
-
+            ch = Character.toLowerCase(ch);
             //Determine if is new paragraph
             //Check if we get a newline
             if ( ch == '\n' ){

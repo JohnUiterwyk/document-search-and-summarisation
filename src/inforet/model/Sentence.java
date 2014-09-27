@@ -56,7 +56,15 @@ public class Sentence {
         this.paragraph = paragraph;
     }
 
-    ////// Functions //////////////////////////////////////////////////////////////////////////////////////////////////
+    public List<String> getWordFreqRanking() {
+        return wordFreqRanking;
+    }
+
+    public int getWordCount() {
+        return wordCount;
+    }
+
+////// Functions //////////////////////////////////////////////////////////////////////////////////////////////////
 
     /** Do these actions when this object is created.
      *
@@ -93,7 +101,7 @@ public class Sentence {
     }
 
     private void insertSortWordRank (String key){
-        if( wordFrequency.get(key) >= wordFrequency.get(wordFreqRanking.get(wordFreqRanking.size() - 1 ) ) ){
+        if( wordFrequency.get(key) >= wordFrequency.get(wordFreqRanking.get(wordFreqRanking.size() - 1)) ){
             this.wordFreqRanking.add(key);
         }
         else {
