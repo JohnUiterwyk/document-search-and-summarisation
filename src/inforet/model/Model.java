@@ -6,7 +6,7 @@ package inforet.model;
 public class Model {
     private DocumentCollection documents = new DocumentCollection();
     private Lexicon lexicon = new Lexicon();
-    private InvertedLists invertedList = new InvertedLists();
+    private InvertedList invertedList = new InvertedList();
     private StopList stopListModule = null;
 
     public Model()
@@ -52,7 +52,7 @@ public class Model {
         invertedList.loadInvertedList(pathToInvList);
     }
 
-    public InvertedLists getInvertedList() {
+    public InvertedList getInvertedList() {
         return invertedList;
     }
 

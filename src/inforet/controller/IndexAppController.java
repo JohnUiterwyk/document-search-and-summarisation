@@ -83,7 +83,7 @@ public class IndexAppController {
 
 
         //save the lexicon and inverted list
-        InvertedLists invertedList = new InvertedLists();
+        InvertedList invertedList = new InvertedList();
         invertedList.saveInvertedList(indexingModule.getTerms());
 
         //save the lexicon and inverted list
