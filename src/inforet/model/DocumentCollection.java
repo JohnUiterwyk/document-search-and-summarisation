@@ -50,7 +50,6 @@ public class DocumentCollection
             }catch (IOException ex) {
                 System.out.println("IOException: "+ex.getMessage());
             }
-            System.out.println("   ***Done with reading from a random access binary file.");
         }
         return doc;
     }
@@ -85,7 +84,7 @@ public class DocumentCollection
                 document.setFileOffset(position);
                 docCount++;
                 documents.put(document.getIndex(), document);
-                collectionLength += document.getBodyTextLength();
+                collectionLength += document.getText().length();
                 position += document.getRawLength();
             }catch (IOException ex)
             {
@@ -105,7 +104,7 @@ public class DocumentCollection
         for (Map.Entry<Integer, Document> entry : documents.entrySet())
         {
             Document document = entry.getValue();
-            document.setWeight(this.calcWeight(document.getBodyTextLength(),averageDocumentLength));
+            document.setLengthWeight(this.calcWeight(document.getText().length(), averageDocumentLength));
             //calculate document weight
         }
     }
@@ -179,10 +178,14 @@ public class DocumentCollection
                     {
                         inText = false;
                     }
+                    else if (line.startsWith("</P>") && inText)
+                    {
+                        doc.append("\n");
+                    }
                 } else if (inDoc) {
                     if(inText)
                     {
-                        doc.appendLineToBody(line);
+                        doc.append(line+"\n");
                     }else if(inHeadline)
                     {
                         doc.setHeadline(line);
@@ -222,7 +225,7 @@ public class DocumentCollection
             Document doc = new Document();
             doc.setIndex(Integer.valueOf(lineData[0]));
             doc.setIdentifier(lineData[1]);
-            doc.setWeight(Float.valueOf(lineData[2]));
+            doc.setLengthWeight(Float.valueOf(lineData[2]));
             doc.setFileOffset(Long.valueOf(lineData[3]));
             documents.put(Integer.valueOf(doc.getIndex()),doc);
             try
@@ -253,7 +256,7 @@ public class DocumentCollection
                 stringBuilder.append(",");
                 stringBuilder.append(document.getIdentifier());
                 stringBuilder.append(",");
-                stringBuilder.append(document.getWeight());
+                stringBuilder.append(document.getLengthWeight());
                 stringBuilder.append(",");
                 stringBuilder.append(document.getFileOffset());
                 stringBuilder.append(lineSeparator);

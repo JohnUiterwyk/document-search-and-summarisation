@@ -29,7 +29,7 @@ public class QueryModule
      * @param queryTerms
      * @param model
      */
-    public void doQuery(String[] queryTerms, Model model, Boolean useBm25)
+    public void doQuery(String[] queryTerms, Model model, Boolean useBm25, Boolean docTextRequried)
     {
 
         int docCount = model.getDocumentCollection().getDocuments().size();
@@ -53,13 +53,13 @@ public class QueryModule
                         result = new QueryResult();
                     }
                     // get the doc from the collection (without text content) and store reference in result
-                    Document doc = model.getDocumentCollection().getDocumentByIndex(posting.docIndex, false);
+                    Document doc = model.getDocumentCollection().getDocumentByIndex(posting.docIndex, docTextRequried);
                     result.setDoc(doc);
 
                     // calc BM25 for term/doc pair, and add to the accumulated score so far
                     if(useBm25)
                     {
-                        float score = Similarity.GetBm25Score(term,docCount,posting.withinDocFrequency,termInfo.getDocumentFrequency(),result.getDoc().getWeight(),1.2f,.75f);
+                        float score = Similarity.GetBm25Score(term,docCount,posting.withinDocFrequency,termInfo.getDocumentFrequency(),result.getDoc().getLengthWeight(),1.2f,.75f);
                         result.setSimilarityScore(result.getSimilarityScore()+score);
                     }
 

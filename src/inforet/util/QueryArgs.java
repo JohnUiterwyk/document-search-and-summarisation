@@ -23,6 +23,8 @@ public class QueryArgs {
 
     public String queryString = null;
 
+    public Boolean printSummary = false;
+
 
     //Configurations
     private static int minArgs = 3;
@@ -100,6 +102,9 @@ public class QueryArgs {
                 i++;
                 collectionPath = args[i];
                 checkFile(collectionPath);
+            }else if(arg.equals("-p"))
+            {
+                printSummary = true;
             }else
             {
                 StringBuilder sb = new StringBuilder();

@@ -1,11 +1,13 @@
 package inforet.controller;
 
+import inforet.model.QueryResult;
 import inforet.view.ResultsView;
 import inforet.model.Model;
 import inforet.module.*;
 import inforet.util.QueryArgs;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 /**
  * Created by Daniel on 16/08/2014.
@@ -47,16 +49,32 @@ public class QueryController {
         {
             model.loadStopList(queryArgs.stopListPath);
         }
+        if(queryArgs.printSummary && queryArgs.collectionPath != "")
+        {
+            model.setPathToCollection(queryArgs.collectionPath);
+        }
 
         //fetch the
 
         QueryModule queryModule = new QueryModule();
-        queryModule.doQuery(queryTerms, model, queryArgs.bm25Enabled);
+        queryModule.doQuery(queryTerms, model, queryArgs.bm25Enabled, queryArgs.printSummary);
 
         //Do the query
 
         ResultsView resultsView = new ResultsView();
-        resultsView.printResults(queryModule.getTopResult(queryArgs.maxResults),queryArgs.queryLabel);
+        List<QueryResult> topResults = queryModule.getTopResult(queryArgs.maxResults);
+        if(queryArgs.printSummary)
+        {
+            DocSummary docSummary = new DocSummary();
+            for(QueryResult result:topResults)
+            {
+                result.setSummaryNQB(docSummary.getNonQueryBiasedSummary(result.getDoc(), model.getStopListModule()));
+            }
+            resultsView.printResultsWithSummary(topResults,queryArgs.queryLabel);
+        }else
+        {
+            resultsView.printResults(topResults,queryArgs.queryLabel);
+        }
 
     }
 }

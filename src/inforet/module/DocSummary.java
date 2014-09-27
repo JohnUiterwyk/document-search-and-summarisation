@@ -2,8 +2,11 @@ package inforet.module;
 
 import inforet.model.Document;
 import inforet.model.Sentence;
+import inforet.model.StopList;
+import inforet.model.WordFrequency;
+import inforet.util.Heapify;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,7 +14,7 @@ import java.util.List;
  */
 public class DocSummary {
 
-    private int summaryLen = 1; //Sentence
+    private int summaryLen =1; //Sentence
     public DocSummary() {
     }
 
@@ -31,21 +34,40 @@ public class DocSummary {
      */
 
 
-    public String getNonQueryBiasedSummary ( Document doc ){
+    public String getNonQueryBiasedSummary ( Document doc, StopList stopList){
         //Find out what the document is about
-        DocumentAnalysis docMeta = new DocumentAnalysis(doc);
-        return luhnSummary(docMeta);
+        return luhnSummary(doc, stopList);
     }
 
     public String getQueryBiasedSummary ( Document doc, List<String> queryTerms ){
         //Find out what the document is about
-        DocumentAnalysis docMeta = new DocumentAnalysis(doc);
 
         return null;
     }
 
-    private String luhnSummary(DocumentAnalysis docMeta){
-        String summary = "";
+    private String luhnSummary(Document doc, StopList stopList){
+        List<WordFrequency> docTopWords = doc.getTopWordFrequencies(3, stopList);
+        List<Sentence> docSentences = doc.getSentenceList();
+        for(Sentence sentence : docSentences)
+        {
+            HashMap<String,WordFrequency> wordFreqMap = sentence.getWordFrequencies(stopList);
+            for(WordFrequency docTopWord :docTopWords)
+            {
+                WordFrequency sentenceWordFreq = wordFreqMap.get(docTopWord.word);
+                if(sentenceWordFreq != null)
+                {
+                    sentence.score += (float)sentenceWordFreq.frequency / docTopWord.frequency;
+                }
+            }
+        }
+
+        // build summary
+        StringBuilder summary = new StringBuilder();
+        Heapify<Sentence> heapify = new Heapify<Sentence>();
+        for(Sentence sentence : heapify.getTop(docSentences,summaryLen))
+        {
+            summary.append(sentence.getText()+'\n');
+        }
         // Identify top 3 terms used in the document
         // find the sentence with the highest weighted sum of the keywords found.
         // retrieve the sentence and return.
@@ -53,7 +75,7 @@ public class DocSummary {
 //
 //        docMeta.getWordRank().get(x);
 
-        return summary;
+        return summary.toString();
     }
 
     private double sentenceValue(Sentence sentence, String[] keywords ){
@@ -62,7 +84,7 @@ public class DocSummary {
 
         //Weighted Sum of Keywords
         for ( int i = 0; i < keywords.length; i++ ){
-            keyValue += ((sentence.getWordFreqRanking().indexOf(keywords[i]) ^ 2 ) / sentence.getWordCount());
+            //keyValue += ((sentence.getWordFreqRanking().indexOf(keywords[i]) ^ 2 ) / sentence.getWordCount());
         }
 
         return keyValue;

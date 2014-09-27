@@ -70,6 +70,7 @@ public class StopList {
         return stopList.contains(word);
     }
 
+
     // CRUD Interface for StopList
     // TODO Create CRUD methods.
 

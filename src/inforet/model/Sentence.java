@@ -1,17 +1,21 @@
 package inforet.model;
 
 
+import inforet.module.TermNormalizer;
+import inforet.util.Heapify;
+
 import java.util.*;
 
 /**
  * Created by Daniel on 24/09/2014.
  */
-public class Sentence {
-    private String sentence;
-    private Map<String, Integer> wordFrequency;
-    private List<String> wordFreqRanking;
+public class Sentence extends TextContent implements Comparable<Sentence>{
+
+    public static int MIN_LENGTH = 3;
+
     private int wordCount;
     private int paragraph;
+    public float score = 0;
 
     public Sentence() {
         this("");
@@ -20,29 +24,8 @@ public class Sentence {
         this(sentence,-1);
     }
     public Sentence(String sentence, int paragraphNumber) {
-        this.sentence = sentence;
+        this.append(sentence);
         this.paragraph = paragraphNumber;
-        this.wordFrequency = new HashMap<String, Integer>();
-        if (!sentence.isEmpty()){
-            this.identifyWordFrequency();
-            this.doWordFreqRanking();
-        }
-    }
-
-    public String getSentence() {
-        return sentence;
-    }
-
-    public void setSentence(String sentence) {
-        this.sentence = sentence;
-    }
-
-    public Map<String, Integer> getWordFrequency() {
-        return wordFrequency;
-    }
-
-    public void setWordFrequency(Map<String, Integer> wordFrequency) {
-        this.wordFrequency = wordFrequency;
     }
 
     public int getParagraph() {
@@ -53,50 +36,36 @@ public class Sentence {
         this.paragraph = paragraph;
     }
 
-    public List<String> getWordFreqRanking() {
-        return wordFreqRanking;
-    }
 
     public int getWordCount() {
         return wordCount;
     }
 
-////// Functions //////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public static boolean isSentenceTerminator(char c){
 
-    private void identifyWordFrequency(){
-        String[] words = sentence.split("[\\s\\.!\\?]+"); // Split on whitespace & .!?
-        //TODO : Strip out stop words
-        this.wordCount = words.length;
-        for( String word : words ){
-            if ( wordFrequency.containsKey(word) ){
-                int value = wordFrequency.get(word);
-                wordFrequency.replace(word, value++);
-            }
-            else {
-                wordFrequency.put(word, 1); // New entry.
-            }
+        // Note : This isn't a proper way to determine sentence boundaries, but will do good enough.
+        // See the OpenNLP (natural language processing) project for the proper way.
+        // http://opennlp.apache.org/
+        switch(c){
+            case '.' : return true;
+            case '!' : return true;
+            case '?' : return true;
+            default  : return false;
         }
+
     }
 
-    private void doWordFreqRanking(){
-        this.wordFreqRanking = new ArrayList<String>();
-
-        for ( String key : wordFrequency.keySet() ){
-            insertSortWordRank(key); // Ascending List
+    @Override
+    public int compareTo(Sentence compareSentence)
+    {
+        if(this.score < compareSentence.score)
+        {
+            return -1;
+        }else if(this.score > compareSentence.score)
+        {
+            return 1;
         }
-        Collections.reverse(this.wordFreqRanking); // Descending List
-    }
-    //TODO SORTING IS BROKEN !!! FIXME !!!
-
-    private void insertSortWordRank (String key){
-        if( wordFrequency.get(key) >= wordFrequency.get(wordFreqRanking.get(wordFreqRanking.size() - 1)) ){
-            this.wordFreqRanking.add(key);
-        }
-        else {
-            String temp = this.wordFreqRanking.get(wordFreqRanking.size() - 1);
-            this.wordFreqRanking.set((wordFreqRanking.size() - 1), key);
-            this.wordFreqRanking.add(temp);
-        }
+        return 0;
     }
 }

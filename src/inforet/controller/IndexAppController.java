@@ -62,7 +62,16 @@ public class IndexAppController {
         HashMap<Integer,Document> documents = documentCollection.getDocuments();
         for(Document document:documents.values())
         {
-            List<String> words = document.getListOfWords();
+            List<String> words;
+            //Use stop list to filter if enabled.
+            if(stopList.isEnabled())
+            {
+                words = document.getListOfWords(stopList);
+            }else
+            {
+                words = document.getListOfWords();
+
+            }
             //loop through word list
             for(String word : words)
             {
@@ -70,11 +79,7 @@ public class IndexAppController {
                 {
                     System.out.println(word);
                 }
-
-                //Ignore entry if it is a stop word.
-                if(!stopList.isEnabled() || !stopList.contains(word)){
-                    indexingModule.addTerm(word,document.getIndex());
-                }
+                indexingModule.addTerm(word,document.getIndex());
             }
         }
 
