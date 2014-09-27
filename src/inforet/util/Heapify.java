@@ -9,7 +9,7 @@ import java.util.*;
  * RMIT Information Retrieval 2014 Slides - IR-03-Ranking1.pdf p.66-73
  *
  */
-public class Heapify <T extends Comparable> {
+public class Heapify <T extends Comparable<T>> {
 
     /**
      * takes a collection of items and returns the top X items
