@@ -57,7 +57,6 @@ public class Heapify <T extends Comparable<T>> {
         {
             heapify (items, i);
         }
-
     }
 
     /***
@@ -71,7 +70,6 @@ public class Heapify <T extends Comparable<T>> {
         while (childPosition < items.size())
         {
             // if i has two children, check if left or right is smaller
-
             if(childPosition < items.size()-1 ) {
                 T leftChild = items.get(childPosition);
                 T rightChild = items.get(childPosition + 1);

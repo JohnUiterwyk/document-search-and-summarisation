@@ -82,7 +82,6 @@ public class QueryModule
 
     public List<QueryResult> getTopResult(int resultCount)
     {
-        //todo: replace insertion sort with min heap
         Heapify<QueryResult> heapify = new Heapify<QueryResult>();
         return heapify.getTop(results.values(),resultCount);
     }
