@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 /**
  * Created by johnuiterwyk on 27/09/2014.
- * 
+ *
  */
 public class Heapify <T extends Comparable> {
     public void sortList(ArrayList<T> items)
