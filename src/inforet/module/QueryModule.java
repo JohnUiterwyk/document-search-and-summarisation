@@ -78,6 +78,14 @@ public class QueryModule
         return sortedResults;
     }
 
+    public List<QueryResult> getHeapResultsList()
+    {
+        //todo: replace insertion sort with min heap
+        ArrayList<QueryResult> sortedResults = new ArrayList<QueryResult>(results.values());
+        Collections.sort(sortedResults);
+        return sortedResults;
+    }
+
     public HashMap<Integer, QueryResult> getResultsMap() {
         return results;
     }
