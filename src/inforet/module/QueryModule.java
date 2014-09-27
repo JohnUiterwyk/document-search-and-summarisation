@@ -3,9 +3,7 @@ package inforet.module;
 import inforet.model.*;
 import inforet.util.Similarity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by johnuiterwyk on 20/09/2014.
@@ -20,7 +18,17 @@ public class QueryModule
     private HashMap<Integer, QueryResult> results = new HashMap<Integer, QueryResult>();
     private ArrayList<TermInfo> terms = new ArrayList<TermInfo>();
 
-    public QueryModule(String[] queryTerms, Model model )
+    public QueryModule()
+    {
+
+    }
+
+    /***
+     * Perform a query on th
+     * @param queryTerms
+     * @param model
+     */
+    public void doQuery(String[] queryTerms, Model model )
     {
 
         int docCount = model.getDocumentCollection().getDocuments().size();
@@ -35,25 +43,41 @@ public class QueryModule
                 //output info
                 for(Posting posting:postings)
                 {
+                    // try to fetch the doc result from the results list first using the doc index
                     QueryResult result = results.get(posting.docIndex);
-                    if(result == null) result = new QueryResult();
-                    result.setDoc(model.getDocumentCollection().getDocumentByIndex(posting.docIndex, false));
+
+                    // if the result is not found, create a new result
+                    if(result == null)
+                    {
+                        result = new QueryResult();
+                    }
+                    // get the doc from the collection (without text content) and store reference in result
+                    Document doc = model.getDocumentCollection().getDocumentByIndex(posting.docIndex, false);
+                    result.setDoc(doc);
+
+                    // calc BM25 for term/doc pair, and add to the accumulated score so far
                     float score = Similarity.GetBm25Score(term,docCount,posting.withinDocFrequency,termInfo.getDocumentFrequency(),result.getDoc().getWeight(),1.2f,.75f);
                     result.setSimilarityScore(result.getSimilarityScore()+score);
+
+                    // put the result (back) into the hash map
+                    results.put(posting.docIndex,result);
                 }
             }
         }
-        //now push it into a min heap
-        for(QueryResult result:results.values())
-        {
-            //insert into min-heap
-        }
     }
 
-    public HashMap<Integer, QueryResult> getResults() {
+
+    public List<QueryResult> getSortedResultsList()
+    {
+        //todo: replace insertion sort with min heap
+        ArrayList<QueryResult> sortedResults = new ArrayList<QueryResult>(results.values());
+        Collections.sort(sortedResults);
+        return sortedResults;
+    }
+
+    public HashMap<Integer, QueryResult> getResultsMap() {
         return results;
     }
-
 
 }
 

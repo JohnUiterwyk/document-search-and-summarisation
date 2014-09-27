@@ -1,11 +1,10 @@
 package inforet.model;
 
-import inforet.model.Document;
 
 /**
  * Created by johnuiterwyk on 20/09/2014.
  */
-public class QueryResult
+public class QueryResult implements Comparable<QueryResult>
 {
     private String queryLabel = "";
     private int rank = 0;
@@ -60,5 +59,25 @@ public class QueryResult
 
     public void setDoc(Document doc) {
         this.doc = doc;
+    }
+
+    /***
+     * Compares the query result to another query result based on the similarity score
+     * @param compareResult
+     * @return
+     */
+    @Override
+    public int compareTo(QueryResult compareResult)
+    {
+        // lower score gets moved to the bottom of list
+        // higher score gets moved to the top of the list
+        if(this.getSimilarityScore() < compareResult.getSimilarityScore())
+        {
+            return 1;
+        }else if(this.getSimilarityScore() > compareResult.getSimilarityScore())
+        {
+            return -1;
+        }
+        return 0;
     }
 }

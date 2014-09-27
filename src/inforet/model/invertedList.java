@@ -95,18 +95,16 @@ public class InvertedList {
 
         List<Posting> postings = new ArrayList<Posting>();
 
-        DataInputStream inputStream = null;
         try
         {
             randomFile.seek(termInfo.getInvListFilePosition());
             for (int i = 0; i < termInfo.getDocumentFrequency(); i++)
             {
                 Posting posting = new Posting();
-                posting.docIndex = inputStream.readInt();
-                posting.withinDocFrequency = inputStream.readInt();
+                posting.docIndex = randomFile.readInt();
+                posting.withinDocFrequency = randomFile.readInt();
                 postings.add(posting);
             }
-            inputStream.close();
         }catch (EOFException ex)
         {
         } catch (IOException ex)
@@ -114,6 +112,7 @@ public class InvertedList {
             System.err.println("IO Error reading list ");
         }catch (Exception ex)
         {
+            System.err.println(" Error reading list: "+ex.getMessage());
         }
         return postings;
 

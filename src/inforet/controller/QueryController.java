@@ -1,5 +1,6 @@
 package inforet.controller;
 
+import inforet.ResultsView;
 import inforet.model.DocumentCollection;
 import inforet.model.Model;
 import inforet.model.StopList;
@@ -45,6 +46,7 @@ public class QueryController {
         Model model = new Model();
         model.loadCollectionFromMap(queryArgs.mapPath);
         model.loadLexicon(queryArgs.lexiconPath);
+        model.loadInvertedList(queryArgs.invlistPath);
         if(queryArgs.stopListEnabled)
         {
             model.loadStopList(queryArgs.stopListPath);
@@ -52,9 +54,13 @@ public class QueryController {
 
         //fetch the
 
-        QueryModule queryModule = new QueryModule(queryTerms, model);
+        QueryModule queryModule = new QueryModule();
+        queryModule.doQuery(queryTerms, model);
+
         //Do the query
 
+        ResultsView resultsView = new ResultsView();
+        resultsView.printResults(queryModule.getSortedResultsList(),queryArgs.maxResults,queryArgs.queryLabel);
 
     }
 }
