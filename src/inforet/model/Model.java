@@ -1,14 +1,12 @@
 package inforet.model;
 
-import inforet.util.IndexFileManager;
-
 /**
  * Created by johnuiterwyk on 26/09/2014.
  */
 public class Model {
     private DocumentCollection documents = new DocumentCollection();
     private Lexicon lexicon = new Lexicon();
-    private InvertedList invertedList = new InvertedList();
+    private InvertedLists invertedList = new InvertedLists();
     private StopList stopListModule = null;
 
     public Model()
@@ -54,7 +52,7 @@ public class Model {
         invertedList.loadInvertedList(pathToInvList);
     }
 
-    public InvertedList getInvertedList() {
+    public InvertedLists getInvertedList() {
         return invertedList;
     }
 

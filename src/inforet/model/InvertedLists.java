@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by johnuiterwyk on 16/08/2014.
  */
-public class InvertedList {
+public class InvertedLists {
     private static String InvListFileName = "invlists";
 
     RandomAccessFile randomFile ;

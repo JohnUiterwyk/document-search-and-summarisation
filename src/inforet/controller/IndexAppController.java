@@ -4,7 +4,6 @@ import inforet.model.*;
 import inforet.module.IndexingModule;
 import inforet.util.IndexArgs;
 import inforet.module.ParsingModule;
-import inforet.util.IndexFileManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +83,7 @@ public class IndexAppController {
 
 
         //save the lexicon and inverted list
-        InvertedList invertedList = new InvertedList();
+        InvertedLists invertedList = new InvertedLists();
         invertedList.saveInvertedList(indexingModule.getTerms());
 
         //save the lexicon and inverted list
