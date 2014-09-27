@@ -4,6 +4,7 @@ import inforet.model.Document;
 import inforet.model.Sentence;
 import javafx.collections.transformation.SortedList;
 
+import java.lang.StringBuilder;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.*;
@@ -22,9 +23,14 @@ public class DocumentAnalysis {
     private List<Sentence> sentences    = null;
 
 
-    public DocumentAnalysis() {
+    public DocumentAnalysis(Document doc) {
         this.wordRank = new ArrayList<String>();
         this.sentences = new ArrayList<Sentence>();
+
+        //Lets begin by ranking all the words used in descending order of use count.
+        docAnalysis.wordRank = docAnalysis.doWordRank(doc);
+        //Extract the sentences and perform sentence level analysis
+        docAnalysis.sentences = docAnalysis.doSentenceAnalysis(doc.getBodyText());
     }
 
     public int getSENTENCE_MIN_LENGTH() {
@@ -39,22 +45,7 @@ public class DocumentAnalysis {
         return sentences;
     }
 
-    /** Initialises the DocumentAnalysis object and perform
-     *  analysis on the document :
-     *  - Ranked Term Frequency of the Document
-     *  - An ordered list of Sentences with Terms & Term Frequency Extracted
-     * @param doc
-     * @return
-     */
-    public static DocumentAnalysis doAnalysis (Document doc){
-        DocumentAnalysis docAnalysis = new DocumentAnalysis();
 
-        //Lets begin by ranking all the words used in descending order of use count.
-        docAnalysis.wordRank = docAnalysis.doWordRank(doc);
-        //Extract the sentences and perform sentence level analysis
-        docAnalysis.sentences = docAnalysis.doSentenceAnalysis(doc.getBodyText());
-        return docAnalysis;
-    }
 ///////////// Document Word Ranking /////////////////////////
     private List<String> doWordRank ( Document doc ){
         List<String> wordRank = new ArrayList<String>();
@@ -64,7 +55,7 @@ public class DocumentAnalysis {
         Collections.reverse(this.wordRank); // Descending List
         return wordRank;
     }
-
+    // TODO SORTING IS BROKEN ! FIX ME !
     private void insertSortWordRank (String key, Document doc){
         if( doc.getTermFrequency().get(key) >= doc.getTermFrequency().get(wordRank.get(wordRank.size() - 1 ) ) ){
             this.wordRank.add(key);
@@ -77,13 +68,14 @@ public class DocumentAnalysis {
     }
 /////////// Sentence Analysis ///////////////
 
+
     private List<Sentence> doSentenceAnalysis ( String text ){
         List<Sentence> sentenceList = new ArrayList<Sentence>();
         // Read one character at a time until the end of text,
         // spliting the sentences and adding metadata as we go.
 
         StringCharacterIterator sci = new StringCharacterIterator(text);
-        StringBuilder strBld = new StringBuilder();
+        StringBuilder strBld = null;
         int paragraph           = 0;
         int sinceLastDotCounter = 0;
         int newlineCounter      = 0;
@@ -103,6 +95,7 @@ public class DocumentAnalysis {
             }
 
             // Extract the sentences
+            if(strBld == null) strBld = new StringBuilder();
 
             strBld.append(ch);
             sinceLastDotCounter++;
@@ -116,6 +109,7 @@ public class DocumentAnalysis {
                     // We've got a legitimate sentence terminator
                     Sentence sentence = new Sentence(strBld.toString(), paragraph);
                     sentenceList.add(sentence);
+                    strBld = null;
                 }
                 sinceLastDotCounter = 0; // Reset the counter.
             }

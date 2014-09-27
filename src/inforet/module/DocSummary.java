@@ -33,13 +33,13 @@ public class DocSummary {
 
     public String getNonQueryBiasedSummary ( Document doc ){
         //Find out what the document is about
-        DocumentAnalysis docMeta = DocumentAnalysis.doAnalysis(doc);
+        DocumentAnalysis docMeta = new DocumentAnalysis(doc);
         return luhnSummary(docMeta);
     }
 
     public String getQueryBiasedSummary ( Document doc, List<String> queryTerms ){
         //Find out what the document is about
-        DocumentAnalysis docMeta = DocumentAnalysis.doAnalysis(doc);
+        DocumentAnalysis docMeta = new DocumentAnalysis(doc);
 
         return null;
     }
@@ -49,6 +49,7 @@ public class DocSummary {
         // Identify top 3 terms used in the document
         // find the sentence with the highest weighted sum of the keywords found.
         // retrieve the sentence and return.
+        for ( ) //TOp X terms
 
         docMeta.getWordRank().get(x);
 

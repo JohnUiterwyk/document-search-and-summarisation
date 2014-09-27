@@ -15,21 +15,19 @@ public class Sentence {
     private int paragraph;
 
     public Sentence() {
-        this.sentence = "";
-        this.wordFrequency = new HashMap<String, Integer>();
-        this.paragraph = -1;
+        this("");
     }
     public Sentence(String sentence) {
-        this.sentence = sentence;
-        this.wordFrequency = new HashMap<String, Integer>();
-        this.paragraph = -1;
-        this.onCreate();
+        this(sentence,-1);
     }
     public Sentence(String sentence, int paragraphNumber) {
         this.sentence = sentence;
-        this.wordFrequency = new HashMap<String, Integer>();
         this.paragraph = paragraphNumber;
-        this.onCreate();
+        this.wordFrequency = new HashMap<String, Integer>();
+        if (!sentence.isEmpty()){
+            this.identifyWordFrequency();
+            this.doWordFreqRanking();
+        }
     }
 
     public String getSentence() {
@@ -66,16 +64,7 @@ public class Sentence {
 
 ////// Functions //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /** Do these actions when this object is created.
-     *
-     */
-    private void onCreate(){
-        // If sentence is not empty, do analysis
-        if (!sentence.isEmpty()){
-            this.identifyWordFrequency();
-            this.doWordFreqRanking();
-        }
-    }
+
     private void identifyWordFrequency(){
         String[] words = sentence.split("[\\s\\.!\\?]+"); // Split on whitespace & .!?
         //TODO : Strip out stop words
@@ -99,6 +88,7 @@ public class Sentence {
         }
         Collections.reverse(this.wordFreqRanking); // Descending List
     }
+    //TODO SORTING IS BROKEN !!! FIXME !!!
 
     private void insertSortWordRank (String key){
         if( wordFrequency.get(key) >= wordFrequency.get(wordFreqRanking.get(wordFreqRanking.size() - 1)) ){
