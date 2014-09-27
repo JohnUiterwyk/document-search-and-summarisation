@@ -6,6 +6,7 @@ import java.util.*;
  * Created by johnuiterwyk on 27/09/2014.
  *
  * http://stackoverflow.com/questions/580160/convert-collection-to-list
+ * RMIT Information Retrieval 2014 Slides - IR-03-Ranking1.pdf p.66-73
  *
  */
 public class Heapify <T extends Comparable> {
