@@ -55,7 +55,7 @@ public class QueryController {
         //fetch the
 
         QueryModule queryModule = new QueryModule();
-        queryModule.doQuery(queryTerms, model);
+        queryModule.doQuery(queryTerms, model, queryArgs.bm25Enabled);
 
         //Do the query
 

@@ -28,7 +28,7 @@ public class QueryModule
      * @param queryTerms
      * @param model
      */
-    public void doQuery(String[] queryTerms, Model model )
+    public void doQuery(String[] queryTerms, Model model, Boolean useBm25)
     {
 
         int docCount = model.getDocumentCollection().getDocuments().size();
@@ -56,8 +56,11 @@ public class QueryModule
                     result.setDoc(doc);
 
                     // calc BM25 for term/doc pair, and add to the accumulated score so far
-                    float score = Similarity.GetBm25Score(term,docCount,posting.withinDocFrequency,termInfo.getDocumentFrequency(),result.getDoc().getWeight(),1.2f,.75f);
-                    result.setSimilarityScore(result.getSimilarityScore()+score);
+                    if(useBm25)
+                    {
+                        float score = Similarity.GetBm25Score(term,docCount,posting.withinDocFrequency,termInfo.getDocumentFrequency(),result.getDoc().getWeight(),1.2f,.75f);
+                        result.setSimilarityScore(result.getSimilarityScore()+score);
+                    }
 
                     // put the result (back) into the hash map
                     results.put(posting.docIndex,result);
