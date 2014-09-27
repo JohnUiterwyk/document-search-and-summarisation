@@ -113,18 +113,16 @@ public class Document {
 
     public int getFrequencyOfTerm(String term)
     {
+
         int count = 0;
         int currentIndex = 0;
         String doc = this.getBodyText();
-        while(currentIndex != -1)
+        for(String word: getListOfWords())
         {
-            currentIndex = doc.indexOf(term,currentIndex);
-            if( currentIndex != -1 )
+            if(word.equals(term))
             {
                 count++;
-                currentIndex += term.length();
             }
-
         }
         return count;
     }
