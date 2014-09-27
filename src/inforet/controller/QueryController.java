@@ -57,7 +57,7 @@ public class QueryController {
         //fetch the
 
         QueryModule queryModule = new QueryModule();
-        queryModule.doQuery(queryTerms, model, queryArgs.bm25Enabled, queryArgs.printSummary);
+        queryModule.doQuery(queryTerms, model, queryArgs.bm25Enabled);
 
         //Do the query
 
@@ -68,6 +68,7 @@ public class QueryController {
             DocSummary docSummary = new DocSummary();
             for(QueryResult result:topResults)
             {
+                result.setDoc(model.getDocumentCollection().getDocumentByIndex(result.getDoc().getIndex(), true));
                 result.setSummaryNQB(docSummary.getNonQueryBiasedSummary(result.getDoc(), model.getStopListModule()));
             }
             resultsView.printResultsWithSummary(topResults,queryArgs.queryLabel);

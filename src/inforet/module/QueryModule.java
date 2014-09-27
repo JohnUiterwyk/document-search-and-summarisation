@@ -29,7 +29,7 @@ public class QueryModule
      * @param queryTerms
      * @param model
      */
-    public void doQuery(String[] queryTerms, Model model, Boolean useBm25, Boolean docTextRequried)
+    public void doQuery(String[] queryTerms, Model model, Boolean useBm25)
     {
 
         int docCount = model.getDocumentCollection().getDocuments().size();
@@ -53,7 +53,7 @@ public class QueryModule
                         result = new QueryResult();
                     }
                     // get the doc from the collection (without text content) and store reference in result
-                    Document doc = model.getDocumentCollection().getDocumentByIndex(posting.docIndex, docTextRequried);
+                    Document doc = model.getDocumentCollection().getDocumentByIndex(posting.docIndex, false);
                     result.setDoc(doc);
 
                     // calc BM25 for term/doc pair, and add to the accumulated score so far
