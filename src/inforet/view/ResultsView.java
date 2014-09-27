@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class ResultsView
 {
-    public void printResults(List<QueryResult> results, int numToPrint, String label)
+    public void printResults(List<QueryResult> results, String label)
     {
-        for(int i=0;i< Math.min(numToPrint,results.size()); i++)
+        for(int i=0;i< results.size(); i++)
         {
             QueryResult result = results.get(i);
             System.out.printf("%s %s %d %3.3f\n",label,result.getDoc().getIdentifier(),i+1,result.getSimilarityScore());

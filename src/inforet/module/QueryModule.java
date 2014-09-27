@@ -1,6 +1,7 @@
 package inforet.module;
 
 import inforet.model.*;
+import inforet.util.Heapify;
 import inforet.util.Similarity;
 
 import java.util.*;
@@ -75,15 +76,15 @@ public class QueryModule
         //todo: replace insertion sort with min heap
         ArrayList<QueryResult> sortedResults = new ArrayList<QueryResult>(results.values());
         Collections.sort(sortedResults);
+        Collections.reverse(sortedResults);
         return sortedResults;
     }
 
-    public List<QueryResult> getHeapResultsList()
+    public List<QueryResult> getTopResult(int resultCount)
     {
         //todo: replace insertion sort with min heap
-        ArrayList<QueryResult> sortedResults = new ArrayList<QueryResult>(results.values());
-        Collections.sort(sortedResults);
-        return sortedResults;
+        Heapify<QueryResult> heapify = new Heapify<QueryResult>();
+        return heapify.getTop(results.values(),resultCount);
     }
 
     public HashMap<Integer, QueryResult> getResultsMap() {

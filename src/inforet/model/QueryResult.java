@@ -69,14 +69,12 @@ public class QueryResult implements Comparable<QueryResult>
     @Override
     public int compareTo(QueryResult compareResult)
     {
-        // lower score gets moved to the bottom of list
-        // higher score gets moved to the top of the list
         if(this.getSimilarityScore() < compareResult.getSimilarityScore())
         {
-            return 1;
+            return -1;
         }else if(this.getSimilarityScore() > compareResult.getSimilarityScore())
         {
-            return -1;
+            return 1;
         }
         return 0;
     }

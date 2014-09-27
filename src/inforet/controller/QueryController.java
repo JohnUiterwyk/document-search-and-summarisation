@@ -56,7 +56,7 @@ public class QueryController {
         //Do the query
 
         ResultsView resultsView = new ResultsView();
-        resultsView.printResults(queryModule.getSortedResultsList(),queryArgs.maxResults,queryArgs.queryLabel);
+        resultsView.printResults(queryModule.getTopResult(queryArgs.maxResults),queryArgs.queryLabel);
 
     }
 }
