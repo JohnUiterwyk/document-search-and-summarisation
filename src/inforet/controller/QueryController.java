@@ -1,15 +1,11 @@
 package inforet.controller;
 
-import inforet.ResultsView;
-import inforet.model.DocumentCollection;
+import inforet.view.ResultsView;
 import inforet.model.Model;
-import inforet.model.StopList;
 import inforet.module.*;
-import inforet.util.IndexFileManager;
 import inforet.util.QueryArgs;
 
 import java.io.FileNotFoundException;
-import java.util.Map;
 
 /**
  * Created by Daniel on 16/08/2014.

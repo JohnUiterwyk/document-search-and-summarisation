@@ -1,4 +1,4 @@
-package inforet;
+package inforet.view;
 
 import inforet.model.QueryResult;
 
