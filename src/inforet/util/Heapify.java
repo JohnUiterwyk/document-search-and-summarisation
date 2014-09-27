@@ -38,7 +38,7 @@ public class Heapify <T extends Comparable<T>> {
             }
 
             // sort the list
-            heapifyList(minHeap);
+            heapSort(minHeap);
 
             i++;
         }
@@ -51,7 +51,7 @@ public class Heapify <T extends Comparable<T>> {
     }
 
 
-    public void heapifyList(ArrayList<T> items)
+    public void heapSort(ArrayList<T> items)
     {
         for (int i = (int)Math.floor((double)(items.size()) / 2.0) ; i >= 0 ; i--)
         {
