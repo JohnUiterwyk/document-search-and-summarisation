@@ -7,6 +7,7 @@ import java.util.RandomAccess;
 
 /**
  * Created by johnuiterwyk on 20/09/2014.
+ * LineReader is an adaptor to allow for allowing a BufferedReader and  RandomAccessFile
  */
 public class LineReader {
 

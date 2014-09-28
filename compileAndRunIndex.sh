@@ -1,5 +1,5 @@
 STOP_LIST=data/stoplist
-DOC_COLLECTION=data/latimes_med.txt
+DOC_COLLECTION=data/latimes
 
 mkdir -p bin
 javac -d bin -sourcepath src src/inforet/index.java
