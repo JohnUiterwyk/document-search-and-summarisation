@@ -41,6 +41,7 @@ public class QueryController {
         TermNormalizer normalizer = new TermNormalizer();
         String[] queryTerms = normalizer.transformedStringToTerms(queryArgs.queryString);
 
+        //create the model
         Model model = new Model();
         model.loadCollectionFromMap(queryArgs.mapPath);
         model.loadLexicon(queryArgs.lexiconPath);
@@ -54,21 +55,25 @@ public class QueryController {
             model.setPathToCollection(queryArgs.collectionPath);
         }
 
-        //fetch the
 
+        //fetch the top results from the query module
         QueryModule queryModule = new QueryModule();
         queryModule.doQuery(queryTerms, model, queryArgs.bm25Enabled);
+        List<QueryResult> topResults = queryModule.getTopResult(queryArgs.maxResults);
 
-        //Do the query
+
 
         ResultsView resultsView = new ResultsView();
-        List<QueryResult> topResults = queryModule.getTopResult(queryArgs.maxResults);
         if(queryArgs.printSummary)
         {
+
             DocSummary docSummary = new DocSummary();
             for(QueryResult result:topResults)
             {
+                // retrieve the actualy text from the document collection
                 result.setDoc(model.getDocumentCollection().getDocumentByIndex(result.getDoc().getIndex(), true));
+
+                //set the summary on the result object by fetching it from the docSummary object
                 result.setSummaryNQB(docSummary.getNonQueryBiasedSummary(result.getDoc(), model.getStopListModule()));
             }
             resultsView.printResultsWithSummary(topResults,queryArgs.queryLabel);

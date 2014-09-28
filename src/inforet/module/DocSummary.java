@@ -46,22 +46,34 @@ public class DocSummary {
     }
 
     private String luhnSummary(Document doc, StopList stopList){
+        // get the top X used words in the document
         List<WordFrequency> docTopWords = doc.getTopWordFrequencies(3, stopList);
+
+        //get the list of sentences for the doc
         List<Sentence> docSentences = doc.getSentenceList();
+
+        // loop through the sentences
         for(Sentence sentence : docSentences)
         {
+            //get the fill hashmap of words/freq for a sentence
             HashMap<String,WordFrequency> wordFreqMap = sentence.getWordFrequencies(stopList);
+
+            // now for each of the top X words in the doc
             for(WordFrequency docTopWord :docTopWords)
             {
+                // check if its in the sentence hash map
                 WordFrequency sentenceWordFreq = wordFreqMap.get(docTopWord.word);
+
+                //if we find the word in the sentence
                 if(sentenceWordFreq != null)
                 {
+                    //add a the weighted frequency to the score
                     sentence.score += (float)sentenceWordFreq.frequency / docTopWord.frequency;
                 }
             }
         }
 
-        // build summary
+        // build summary using the top X sentences
         StringBuilder summary = new StringBuilder();
         Heapify<Sentence> heapify = new Heapify<Sentence>();
         for(Sentence sentence : heapify.getTop(docSentences,summaryLen))

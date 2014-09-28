@@ -28,6 +28,7 @@ public class DocumentCollection
     {
         return documents;
     }
+
     public Document getDocumentByIndex(Integer index, Boolean textRequired)
     {
         Document doc = documents.get(index);

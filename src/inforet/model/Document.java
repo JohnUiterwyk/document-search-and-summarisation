@@ -76,8 +76,11 @@ public class Document extends TextContent
     }
 
 
-
-
+    /***
+     * get sentence list splits the doc into sentences. NOTE! this parsing is done each time you call this,
+     * so only call it once and save the output. This doesnt store the sentence in the document.
+     * @return
+     */
     public List<Sentence> getSentenceList ()
     {
         List<Sentence> sentenceList = new ArrayList<Sentence>();
