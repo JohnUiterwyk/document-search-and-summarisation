@@ -40,7 +40,7 @@ public class SummaryEvaluation
             printWrappedLine(result.getSummaryNQB(),70);
             System.out.println();
             System.out.println("Summary 2:");
-            printWrappedLine("I love lamp.",70);
+            printWrappedLine(result.getSummaryQB(),70);
             System.out.println();
             int choice = input.getIntRange(1,2,"Please enter the number 1 or 2 to indicate which summary you prefer:");
             if(choice == 1)

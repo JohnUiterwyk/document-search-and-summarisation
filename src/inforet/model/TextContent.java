@@ -44,7 +44,7 @@ public class TextContent
                     wordFrequency = new WordFrequency(word);
                 }
                 //increment the within doc freq and put it back in the hashmap
-                wordFrequency.frequency++;
+            wordFrequency.frequency++;
                 wordFrequencies.put(word,wordFrequency);
             }
         }

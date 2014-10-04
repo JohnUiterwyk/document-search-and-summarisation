@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class DocSummary {
 
-    private int summaryLen =1; //Sentence
+    private int summaryLen = 1; //Sentence
     public DocSummary() {
     }
 
@@ -30,7 +30,7 @@ public class DocSummary {
      *  ************************************************************************************
      *  This will implement Extraction based summary as follows :
      *  a) Non-Query Biased = Luhn 1958, Summary sentence extraction based on the number of keywords occuring in a sentence.
-     *  b) Query Biased =
+     *  b) Query Biased = Adapted Luhn Extraction sentence score algorithm
      */
 
 
@@ -39,12 +39,12 @@ public class DocSummary {
         return luhnSummary(doc, stopList);
     }
 
-    public String getQueryBiasedSummary ( Document doc, List<String> queryTerms ){
+    public String getQueryBiasedSummary ( Document doc, StopList stopList, List<String> queryTerms ){
         //Find out what the document is about
 
-        return null;
+        return queryBiasedLuhnSummary(doc, stopList, queryTerms);
     }
-
+    //Non-Query Biased Summary
     private String luhnSummary(Document doc, StopList stopList){
         // get the top X used words in the document
         List<WordFrequency> docTopWords = doc.getTopWordFrequencies(3, stopList);
@@ -67,8 +67,10 @@ public class DocSummary {
                 //if we find the word in the sentence
                 if(sentenceWordFreq != null)
                 {
-                    //add a the weighted frequency to the score
-                    sentence.score += (float)sentenceWordFreq.frequency / docTopWord.frequency;
+                    //add a the weighted frequency to the
+                    // The sum of keywords found in the sentence weighted against the length of the sentece.
+                    // Inspired by Luhn's Keyword based Extraction Summary ( Luhn '58)
+                    sentence.score += (float)((sentenceWordFreq.frequency)^2) / sentence.getWordCount();
                 }
             }
         }
@@ -76,31 +78,48 @@ public class DocSummary {
         // build summary using the top X sentences
         StringBuilder summary = new StringBuilder();
         Heapify<Sentence> heapify = new Heapify<Sentence>();
-        for(Sentence sentence : heapify.getTop(docSentences,summaryLen))
-        {
-            summary.append(sentence.getText()+'\n');
+        for(Sentence sentence : heapify.getTop(docSentences,summaryLen)) {
+            summary.append(sentence.getText() + '\n');
         }
-        // Identify top 3 terms used in the document
-        // find the sentence with the highest weighted sum of the keywords found.
-        // retrieve the sentence and return.
-//        for ( ) //TOp X terms
-//
-//        docMeta.getWordRank().get(x);
 
         return summary.toString();
     }
 
-    private double sentenceValue(Sentence sentence, String[] keywords ){
-        int keyValue = 0;
-        double value = 0;
 
-        //Weighted Sum of Keywords
-        for ( int i = 0; i < keywords.length; i++ ){
-            //keyValue += ((sentence.getWordFreqRanking().indexOf(keywords[i]) ^ 2 ) / sentence.getWordCount());
+    private String queryBiasedLuhnSummary(Document doc, StopList stopList, List<String> queryTerms){
+        //get the list of sentences for the doc
+        List<Sentence> docSentences = doc.getSentenceList();
+
+        // loop through the sentences
+        for(Sentence sentence : docSentences)
+        {
+            //get the fill hashmap of words/freq for a sentence
+            HashMap<String,WordFrequency> wordFreqMap = sentence.getWordFrequencies(stopList);
+
+            // now for each query term
+            for(String term : queryTerms)
+            {
+                // check if its in the sentence hash map
+                WordFrequency sentenceWordFreq = wordFreqMap.get(term);
+
+                //if we find the word in the sentence
+                if(sentenceWordFreq != null)
+                {
+                    //add a the weighted frequency to the
+                    // The sum of keywords found in the sentence weighted against the length of the sentece.
+                    // Inspired by Luhn's Keyword based Extraction Summary ( Luhn '58)
+                    sentence.score += (float)((sentenceWordFreq.frequency)^2) / sentence.getWordCount();
+                }
+            }
         }
 
-        return keyValue;
+        // build summary using the top X sentences
+        StringBuilder summary = new StringBuilder();
+        Heapify<Sentence> heapify = new Heapify<Sentence>();
+        for(Sentence sentence : heapify.getTop(docSentences,summaryLen)) {
+            summary.append(sentence.getText() + '\n');
+        }
+
+        return summary.toString();
     }
-
-
 }
