@@ -6,6 +6,7 @@ import inforet.model.StopList;
 import inforet.model.WordFrequency;
 import inforet.util.Heapify;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -89,6 +90,17 @@ public class DocSummary {
     private String queryBiasedLuhnSummary(Document doc, StopList stopList, List<String> queryTerms){
         //get the list of sentences for the doc
         List<Sentence> docSentences = doc.getSentenceList();
+
+        //Term Normaliser & Stoplist
+        List<String> cleanQuery = new ArrayList<String>();
+        for ( String s : queryTerms ){
+            if ( stopList.contains(s) ){
+                continue;
+            }
+
+            cleanQuery.add(TermNormalizer.transform(s));
+        }
+        queryTerms = cleanQuery;
 
         // loop through the sentences
         for(Sentence sentence : docSentences)
