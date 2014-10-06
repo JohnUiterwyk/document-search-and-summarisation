@@ -27,13 +27,13 @@ public class SummaryEvaluation
         {
             count++;
             System.out.println("### Document "+count+" ###");
-            System.out.println("Headline: ");
-            System.out.println(result.getDoc().getHeadline());
-            System.out.println("Text:");
-            System.out.println(result.getDoc().getText());
-            System.out.println("### END DOCUMENT ###");
-            System.out.println();
-            input.pause("Press enter to view summaries.");
+//            System.out.println("Headline: ");
+//            System.out.println(result.getDoc().getHeadline());
+//            System.out.println("Text:");
+//            System.out.println(result.getDoc().getText());
+//            System.out.println("### END DOCUMENT ###");
+//            System.out.println();
+//            input.pause("Press enter to view summaries.");
             System.out.println("### Summaries ###");
             System.out.println();
             System.out.println("Summary 1:");
