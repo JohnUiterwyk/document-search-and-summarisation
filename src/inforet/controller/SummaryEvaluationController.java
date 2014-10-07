@@ -10,6 +10,7 @@ import inforet.util.ConsoleInput;
 import inforet.util.QueryArgs;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -55,6 +56,10 @@ public class SummaryEvaluationController {
         for (QueryResult result : topResults) {
             result.setDoc(model.getDocumentCollection().getDocumentByIndex(result.getDoc().getIndex(), true));
             result.setSummaryNQB(docSummary.getNonQueryBiasedSummary(result.getDoc(), model.getStopListModule()));
+            result.setSummaryQB(docSummary.getQueryBiasedSummary( result.getDoc(),
+                                                                  model.getStopListModule(),
+                                                                  Arrays.asList(queryTerms)
+                                                                ));
         }
 
         // perform evaluation
