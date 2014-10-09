@@ -6,9 +6,7 @@ import inforet.model.StopList;
 import inforet.model.WordFrequency;
 import inforet.util.Heapify;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Daniel on 21/09/2014.
@@ -80,8 +78,10 @@ public class DocSummary {
         // build summary using the top X sentences
         StringBuilder summary = new StringBuilder();
         Heapify<Sentence> heapify = new Heapify<Sentence>();
-        for(Sentence sentence : heapify.getTop(docSentences,summaryLen)) {
-            summary.append(sentence.getText() + '\n');
+        List<Sentence> topSentences = heapify.getTop(docSentences,summaryLen);
+        Collections.sort(topSentences, new SentenceIndexComparator());
+        for(Sentence sentence : topSentences) {
+            summary.append(sentence.getText() + ' ');
         }
 
         return summary.toString();
@@ -129,10 +129,21 @@ public class DocSummary {
         // build summary using the top X sentences
         StringBuilder summary = new StringBuilder();
         Heapify<Sentence> heapify = new Heapify<Sentence>();
-        for(Sentence sentence : heapify.getTop(docSentences,summaryLen)) {
-            summary.append(sentence.getText() + '\n');
+        List<Sentence> topSentences = heapify.getTop(docSentences,summaryLen);
+        Collections.sort(topSentences, new SentenceIndexComparator());
+        for(Sentence sentence : topSentences) {
+            summary.append(sentence.getText() + ' ');
         }
 
         return summary.toString();
     }
 }
+class SentenceIndexComparator implements Comparator<Sentence> {
+    @Override
+    public int compare(Sentence a, Sentence b) {
+        if(a.index < b.index) return -1;
+        if(a.index > b.index) return 1;
+        return 0;
+    }
+}
+

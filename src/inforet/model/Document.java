@@ -130,6 +130,7 @@ public class Document extends TextContent
                     // We've got a legitimate sentence terminator
                     Sentence sentence = new Sentence(strBld.toString(), paragraph);
                     sentenceList.add(sentence);
+                    sentence.index = sentenceList.indexOf(sentence);
                     strBld = null;
                 }
                 sinceLastDotCounter = 0; // Reset the counter.

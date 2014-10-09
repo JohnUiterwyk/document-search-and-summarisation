@@ -15,6 +15,7 @@ public class Sentence extends TextContent implements Comparable<Sentence>{
 
     private int paragraph;
     public float score = 0;
+    public int index = 0;
 
     public Sentence() {
         this("");
