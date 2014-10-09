@@ -16,6 +16,7 @@ import java.util.List;
 public class DocSummary {
 
     private int summaryLen = 3; //Sentence
+    private int minSentenceWordCount = 6; //minimum number of words in a sentence
     public DocSummary() {
     }
 
@@ -66,7 +67,7 @@ public class DocSummary {
                 WordFrequency sentenceWordFreq = wordFreqMap.get(docTopWord.word);
 
                 //if we find the word in the sentence
-                if(sentenceWordFreq != null && sentence.getText().length() > 5)
+                if(sentenceWordFreq != null && sentence.getWordCount() >= minSentenceWordCount)
                 {
                     //add a the weighted frequency to the
                     // The sum of keywords found in the sentence weighted against the length of the sentece.
@@ -115,7 +116,7 @@ public class DocSummary {
                 WordFrequency sentenceWordFreq = wordFreqMap.get(term);
 
                 //if we find the word in the sentence
-                if(sentenceWordFreq != null)
+                if(sentenceWordFreq != null && sentence.getWordCount() >= minSentenceWordCount)
                 {
                     //add a the weighted frequency to the
                     // The sum of keywords found in the sentence weighted against the length of the sentece.

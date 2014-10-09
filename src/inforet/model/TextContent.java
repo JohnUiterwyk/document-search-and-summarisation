@@ -12,6 +12,7 @@ public class TextContent
 {
     private StringBuilder text = new StringBuilder();
     private HashMap<String,WordFrequency> wordFrequencies;
+    private int wordCount;
 
     public void append(String appendText)
     {
@@ -69,6 +70,7 @@ public class TextContent
     public List<String> getListOfWords(StopList stopList) {
         List<String> words = new ArrayList<String>();
         words.addAll(Arrays.asList(TermNormalizer.stringToTerms(this.getText())));
+        wordCount = words.size();
         if(stopList != null)
         {
             Iterator<String> iterator = words.iterator();
@@ -81,5 +83,9 @@ public class TextContent
             }
         }
         return words;
+    }
+
+    public int getWordCount() {
+        return wordCount;
     }
 }

@@ -13,7 +13,6 @@ public class Sentence extends TextContent implements Comparable<Sentence>{
 
     public static int MIN_LENGTH = 3;
 
-    private int wordCount;
     private int paragraph;
     public float score = 0;
 
@@ -37,9 +36,6 @@ public class Sentence extends TextContent implements Comparable<Sentence>{
     }
 
 
-    public int getWordCount() {
-        return wordCount;
-    }
 
 
     public static boolean isSentenceTerminator(char c){
