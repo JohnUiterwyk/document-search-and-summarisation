@@ -7,6 +7,7 @@ import inforet.module.*;
 import inforet.util.QueryArgs;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -75,6 +76,7 @@ public class QueryController {
 
                 //set the summary on the result object by fetching it from the docSummary object
                 result.setSummaryNQB(docSummary.getNonQueryBiasedSummary(result.getDoc(), model.getStopListModule()));
+                result.setSummaryQB(docSummary.getQueryBiasedSummary(result.getDoc(), model.getStopListModule(), Arrays.asList(queryTerms)));
             }
             resultsView.printResultsWithSummary(topResults,queryArgs.queryLabel);
         }else

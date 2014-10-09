@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class DocSummary {
 
-    private int summaryLen = 1; //Sentence
+    private int summaryLen = 3; //Sentence
     public DocSummary() {
     }
 
@@ -66,7 +66,7 @@ public class DocSummary {
                 WordFrequency sentenceWordFreq = wordFreqMap.get(docTopWord.word);
 
                 //if we find the word in the sentence
-                if(sentenceWordFreq != null)
+                if(sentenceWordFreq != null && sentence.getText().length() > 5)
                 {
                     //add a the weighted frequency to the
                     // The sum of keywords found in the sentence weighted against the length of the sentece.

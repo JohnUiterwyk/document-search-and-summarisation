@@ -25,8 +25,10 @@ public class ResultsView
         {
             QueryResult result = results.get(i);
             this.printResultDetails(result,label,i+1);
-            System.out.println("Summary:");
+            System.out.println("Non Query Biased Summary:");
             System.out.println(result.getSummaryNQB());
+            System.out.println("Query Biased Summary:");
+            System.out.println(result.getSummaryQB());
         }
     }
 
